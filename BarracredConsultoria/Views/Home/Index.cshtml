@@ -1,0 +1,75 @@
+﻿@{
+    ViewData["Title"] = "Página Inicial";
+}
+
+<section class="bg-primary text-white text-center py-5 shadow-sm" style="background: linear-gradient(135deg, #3b8343 0%, #6ca43c 100%);">
+    <div class="container py-5">
+        <h1 class="display-4 fw-bold">Transforme sua Saúde Financeira</h1>
+        <p class="lead mb-4">Consultoria especializada em crédito e trilhas de aprendizado exclusivas para você dominar o seu dinheiro.</p>
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+            <a href="#consultoria" class="btn btn-light btn-lg px-4 gap-3 fw-bold text-primary">Análise Grátis</a>
+            <a asp-controller="Trilhas" asp-action="Index" class="btn btn-outline-light btn-lg px-4">Ver Trilhas</a>
+        </div>
+    </div>
+</section>
+
+<div class="container my-5">
+    <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+        <div class="feature col text-center">
+            <div class="feature-icon d-inline-flex align-items-center justify-content-center text-primary fs-2 mb-3">
+                <i class="bi bi-graph-up-arrow"></i>
+            </div>
+            <h3 class="fs-4">Aumento de Score</h3>
+            <p>Estratégias comprovadas para melhorar seu perfil de crédito perante as instituições financeiras.</p>
+        </div>
+        <div class="feature col text-center">
+            <div class="feature-icon d-inline-flex align-items-center justify-content-center text-primary fs-2 mb-3">
+                <i class="bi bi-book"></i>
+            </div>
+            <h3 class="fs-4">Educação Grátis</h3>
+            <p>Acesse nossas trilhas de aprendizado e aprenda sobre economia de forma simples e prática.</p>
+        </div>
+        <div class="feature col text-center">
+            <div class="feature-icon d-inline-flex align-items-center justify-content-center text-primary fs-2 mb-3">
+                <i class="bi bi-headset"></i>
+            </div>
+            <h3 class="fs-4">Consultoria Humana</h3>
+            <p>Fale com especialistas prontos para analisar seu caso individualmente e tirar suas dúvidas.</p>
+        </div>
+    </div>
+
+    <hr class="my-5">
+
+    <div id="consultoria" class="row align-items-center g-lg-5 py-5">
+        <div class="col-lg-7 text-center text-lg-start">
+            <h2 class="display-5 fw-bold lh-1 mb-3">Pronto para dar o próximo passo?</h2>
+            <p class="col-lg-10 fs-4">Preencha nosso formulário rápido de perfil financeiro. Nossos consultores analisarão seus dados e entrarão em contato com o melhor plano para você.</p>
+        </div>
+        <div class="col-md-10 mx-auto col-lg-5">
+            <div class="card p-4 p-md-5 border rounded-3 bg-light shadow">
+                <h4 class="mb-3 text-center">Solicitar Análise</h4>
+                <div class="d-grid">
+                    <a asp-controller="PerfilFinanceiro" asp-action="Create" class="btn btn-primary btn-lg">Começar Agora</a>
+                </div>
+                <hr class="my-4">
+                <small class="text-muted text-center d-block">Garantimos a privacidade dos seus dados.</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <style>
+        .feature-icon {
+            width: 4rem;
+            height: 4rem;
+            border-radius: 0.75rem;
+            background-color: rgba(58, 155, 94, 0.1);
+        }
+        .card:hover {
+            transform: translateY(5px);
+            transition: 0.5s;
+        }
+    </style>
+}

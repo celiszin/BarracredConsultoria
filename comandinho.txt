@@ -1,0 +1,37 @@
+git config --global --replace-all user.name celiszin
+git config --global user.email teste153ovo@gmail.com
+
+    Passo para criação do projeto:
+        dotnet new sln --name BarracredConsultoria
+        dotnet new mvc -o BarracredConsultoria
+        dotnet sln add BarracredConsultoria\BarracredConsultoria.csproj
+
+    Instalando Pacotes:
+        1. Acessar https://www.nuget.org/
+        dotnet add package Microsoft.EntityFrameworkCore --version 8.0.2
+        dotnet add package Microsoft.EntityFrameworkCore.Design --version 8.0.2
+        dotnet add package Microsoft.EntityFrameworkCore.Tools --version 8.0.2
+        dotnet add package Microsoft.AspNetCore.Identity.EntityFrameworkCore --version 8.0.2
+        dotnet add package MySql.EntityFrameworkCore --version 8.0.0
+
+    Passos projeto:
+        1. Criar as classes da camada de dados (Models)
+        2. Criar as classes de contexto
+        3. Configura a ConnectionString appsettings.json
+        4. Configura os serviços de Context e Identity no Program.cs
+        5. Cd BarracredConsultoria
+        6. Executar o Xamp > MySql
+        7. dotnet watch run
+
+dotnet codegenerator  (cria o codigo baseado naquilo que ja esta criado)
+dotnet tool install --global dotnet-aspnet-codegenerator --version 9.0.0
+
+dotnet aspnet-codegenerator -h
+
+dotnet aspnet-codegenerator controller -name CategoriasController --model Categoria --dataContext AppDbContext --layout "~/Views/Shared/_LayoutAdmin.cshtml" -outDir Controllers
+
+dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design --version 9.0.0
+
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer --version 9.0.2
+
+dotnet aspnet-codegenerator controller -name ProdutosController --model Produto --dataContext AppDbContext --layout "~/Views/Shared/_LayoutAdmin.cshtml" -outDir Controllers
