@@ -2,132 +2,196 @@
 
 @{
     ViewData["Title"] = "Seu Portal de Consultoria";
-    
+    Layout = null; 
+
     bool temDividas = Model.CondicaoFinanceira.TotalDividas > 0;
-    string corStatus = temDividas ? "text-danger" : "text-verde-claro";
+    string corStatus = temDividas ? "text-red-500 dark:text-red-400" : "text-primary";
 }
 
-<style>
-    .text-verde-escuro { color: #004438 !important; }
-    .bg-verde-escuro { background-color: #004438 !important; }
+<!DOCTYPE html>
+<html class="dark" lang="pt-BR">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0df259",
+                        "background-light": "#f5f8f6",
+                        "background-dark": "#102216",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+    <title>@ViewData["Title"] | Financial Clinic</title>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen p-4 md:p-8">
     
-    .btn-verde-medio { 
-        background-color: #008744 !important; 
-        color: #ffffff !important; 
-        border: none;
-        transition: background-color 0.3s ease;
-    }
-    .btn-verde-medio:hover { 
-        background-color: #006633 !important; 
-        color: #ffffff !important;
-    }
-    
-    .text-verde-claro { color: #1EB53A !important; }
-    .bg-verde-claro { background-color: #1EB53A !important; }
-    .border-verde-claro { border-color: #1EB53A !important; }
-</style>
-
-<div class="container mt-5">
-    <h2 class="text-verde-escuro fw-bold mb-4">Painel do Cooperado</h2>
-    <p class="text-muted">Análise realizada em: @Model.Usuario.DataAnalise.ToString("dd/MM/yyyy")</p>
-
-    @if (TempData["MensagemSucesso"] != null)
-    {
-        <div class="alert bg-verde-claro text-white border-0 shadow-sm mt-3">
-            <strong>Sucesso!</strong> @TempData["MensagemSucesso"]
-        </div>
-    }
-
-    <div class="row g-4">
-        <div class="col-md-6">
-            <div class="card shadow-sm border-0 h-100 border-start border-4 border-verde-claro">
-                <div class="card-body">
-                    <h4 class="card-title text-verde-escuro"><i class="fas fa-chart-line me-2 text-verde-claro"></i>Seu Momento Financeiro</h4>
-                    <hr />
-                    <p class="fs-5 fw-bold @corStatus">@Model.CondicaoFinanceira.StatusAtual</p>
-                    <ul class="list-group list-group-flush mt-3">
-                        <li class="list-group-item d-flex justify-content-between px-0">
-                            <span class="text-verde-escuro">Renda Mensal:</span>
-                            <strong class="text-verde-escuro">@Model.CondicaoFinanceira.RendaMensal.ToString("C")</strong>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between px-0">
-                            <span class="text-verde-escuro">Dívidas Totais:</span>
-                            <strong class="@corStatus">@Model.CondicaoFinanceira.TotalDividas.ToString("C")</strong>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between px-0">
-                            <span class="text-verde-escuro">Seu Maior Objetivo:</span>
-                            <span class="badge bg-verde-claro align-self-center">@Model.Usuario.Objetivo</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-6">
-            <div class="card shadow-sm border-0 h-100">
-                <div class="card-body bg-light rounded">
-                    <h4 class="card-title text-verde-escuro"><i class="fas fa-comments me-2 text-verde-claro"></i>Consultoria Especializada</h4>
-                    <hr />
-                    
-                    <div class="d-flex align-items-center mb-3">
-                        <div class="bg-verde-escuro text-white p-3 rounded text-center me-3">
-                            <span class="d-block fw-bold fs-4">@Model.Agendamento.DataHora.ToString("dd")</span>
-                            <span class="d-block small text-uppercase">@Model.Agendamento.DataHora.ToString("MMM")</span>
-                        </div>
-                        <div>
-                            <h6 class="mb-0 fw-bold text-verde-escuro">Consulta agendada para @Model.Agendamento.DataHora.ToString("HH:mm")</h6>
-                            <span class="badge bg-verde-claro mt-1">Status: @Model.Agendamento.Status</span>
-                        </div>
-                    </div>
-
-                    <div class="alert border-verde-claro border shadow-sm mt-4 bg-white">
-                        <h6 class="alert-heading fw-bold text-verde-escuro"><i class="fas fa-lightbulb me-1 text-verde-claro"></i> Dica Especializada</h6>
-                        <p class="mb-0 small text-dark">@Model.Agendamento.Observacoes</p>
-                    </div>
-
-                    <form asp-controller="Home" asp-action="SalvarAgendamento" method="post" class="mt-4">
-                        <div class="mb-3">
-                            <label for="dataEscolhida" class="form-label fw-bold text-verde-escuro">Agendar / Remarcar Horário:</label>
-                            <input type="datetime-local" id="dataEscolhida" name="dataEscolhida" class="form-control" required>
-                        </div>
-                        
-                        <button type="submit" class="btn btn-verde-medio w-100 fw-bold shadow-sm">
-                            <i class="fas fa-calendar-check me-2"></i> Confirmar Agendamento
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-12">
-            <div class="card shadow-sm border-0">
-                <div class="card-body">
-                    <h4 class="card-title text-verde-escuro"><i class="fas fa-tasks me-2 text-verde-claro"></i>Seu Plano de Ação Digital</h4>
-                    <p class="text-muted small">Para atingir seu objetivo, complete as tarefas de educação financeira abaixo.</p>
-                    <hr />
-                    
-                    <div class="row align-items-center">
-                        <div class="col-md-8">
-                            <h5 class="fw-bold text-verde-escuro">Trilha: @Model.Trilha.Titulo</h5>
-                            <p class="mb-2">@Model.Trilha.Descricao</p>
-                            
-                            <div class="card border border-verde-claro mt-3">
-                                <div class="card-body py-2 d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <span class="badge bg-verde-escuro me-2">Aula @Model.Aula.Ordem</span>
-                                        <span class="fw-bold text-verde-escuro">@Model.Aula.Titulo</span>
-                                        <p class="mb-0 small text-muted">@Model.Aula.ConteudoTexto</p>
-                                    </div>
-                                    <button class="btn btn-sm btn-verde-medio rounded-pill px-3">Assistir</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 text-center mt-3 mt-md-0">
-                            <i class="fas fa-laptop-code fa-4x text-verde-claro opacity-50"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="fixed top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
+        <div class="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] bg-primary/10 blur-[120px] rounded-full"></div>
+        <div class="absolute -bottom-[10%] -right-[10%] w-[40%] h-[40%] bg-primary/5 blur-[120px] rounded-full"></div>
     </div>
-</div>
+
+    <main class="relative z-10 w-full max-w-5xl mx-auto">
+        
+        <div class="mb-8">
+            <h2 class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">Painel do Cooperado</h2>
+            <p class="text-slate-500 dark:text-slate-400 mt-2">Análise realizada em: <span class="text-primary font-medium">@Model.Usuario.DataAnalise.ToString("dd/MM/yyyy")</span></p>
+        </div>
+
+        @if (TempData["MensagemSucesso"] != null)
+        {
+            <div class="bg-primary/20 border border-primary/30 text-green-900 dark:text-primary px-4 py-3 rounded-xl mb-6 shadow-sm flex items-center gap-3">
+                <span class="material-symbols-outlined">check_circle</span>
+                <span><strong>Sucesso!</strong> @TempData["MensagemSucesso"]</span>
+            </div>
+        }
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            
+            <div class="bg-white dark:bg-[#162a1d] p-6 rounded-xl shadow-xl shadow-black/10 border-l-4 border-primary border-y border-r border-slate-200 dark:border-white/5 h-full flex flex-col">
+                <div class="flex items-center gap-2 mb-4">
+                    <span class="material-symbols-outlined text-primary text-2xl">trending_up</span>
+                    <h4 class="text-xl font-semibold text-slate-900 dark:text-white">Seu Momento Financeiro</h4>
+                </div>
+                <hr class="border-slate-200 dark:border-white/10 mb-4" />
+                
+                <p class="text-3xl font-bold @corStatus mb-6">@Model.CondicaoFinanceira.StatusAtual</p>
+                
+                <ul class="space-y-4 mt-auto">
+                    <li class="flex justify-between items-center pb-3 border-b border-slate-100 dark:border-white/5">
+                        <span class="text-sm font-medium text-slate-500 dark:text-slate-400">Renda Mensal:</span>
+                        <strong class="text-slate-900 dark:text-white">@Model.CondicaoFinanceira.RendaMensal.ToString("C")</strong>
+                    </li>
+                    <li class="flex justify-between items-center pb-3 border-b border-slate-100 dark:border-white/5">
+                        <span class="text-sm font-medium text-slate-500 dark:text-slate-400">Dívidas Totais:</span>
+                        <strong class="@corStatus">@Model.CondicaoFinanceira.TotalDividas.ToString("C")</strong>
+                    </li>
+                    <li class="flex justify-between items-center pt-1">
+                        <span class="text-sm font-medium text-slate-500 dark:text-slate-400">Seu Maior Objetivo:</span>
+                        <span class="bg-primary/20 text-green-800 dark:text-primary px-3 py-1 rounded-full text-xs font-bold border border-primary/20">@Model.Usuario.Objetivo</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="bg-white dark:bg-[#162a1d] p-6 rounded-xl shadow-xl shadow-black/10 border border-slate-200 dark:border-white/5 h-full flex flex-col">
+                <div class="flex items-center gap-2 mb-4">
+                    <span class="material-symbols-outlined text-primary text-2xl">forum</span>
+                    <h4 class="text-xl font-semibold text-slate-900 dark:text-white">Consultoria Especializada</h4>
+                </div>
+                <hr class="border-slate-200 dark:border-white/10 mb-6" />
+                
+                <div class="flex items-center mb-6 bg-slate-50 dark:bg-black/20 p-4 rounded-xl border border-slate-100 dark:border-white/5">
+                    <div class="bg-slate-900 dark:bg-[#102216] border border-slate-700 dark:border-primary/20 text-primary p-3 rounded-lg text-center mr-4 min-w-[70px]">
+                        <span class="block font-bold text-2xl leading-none">@Model.Agendamento.DataHora.ToString("dd")</span>
+                        <span class="block text-[10px] uppercase tracking-wider mt-1 font-semibold">@Model.Agendamento.DataHora.ToString("MMM")</span>
+                    </div>
+                    <div>
+                        <h6 class="font-bold text-sm md:text-base text-slate-900 dark:text-white">Consulta agendada para @Model.Agendamento.DataHora.ToString("HH:mm")</h6>
+                        <span class="inline-block mt-1.5 bg-primary/20 text-green-800 dark:text-primary px-2 py-0.5 rounded text-xs font-semibold">Status: @Model.Agendamento.Status</span>
+                    </div>
+                </div>
+
+                <div class="bg-primary/10 border border-primary/30 rounded-xl p-4 mb-6 relative overflow-hidden">
+                    <div class="absolute -right-4 -top-4 opacity-10">
+                        <span class="material-symbols-outlined text-8xl text-primary">lightbulb</span>
+                    </div>
+                    <h6 class="font-bold text-slate-900 dark:text-white flex items-center gap-2 mb-2 text-sm relative z-10">
+                        <span class="material-symbols-outlined text-primary text-sm">lightbulb</span> 
+                        Dica Especializada
+                    </h6>
+                    <p class="text-sm text-slate-600 dark:text-slate-300 relative z-10">@Model.Agendamento.Observacoes</p>
+                </div>
+
+                <form asp-controller="Home" asp-action="SalvarAgendamento" method="post" class="mt-auto space-y-4">
+                    <div class="space-y-2">
+                        <label for="dataEscolhida" class="text-sm font-medium text-slate-700 dark:text-slate-300 ml-1">Agendar / Remarcar Horário:</label>
+                        <div class="relative">
+                            <span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 text-xl">calendar_month</span>
+                            <input type="datetime-local" id="dataEscolhida" name="dataEscolhida" required 
+                                   class="w-full bg-slate-50 dark:bg-black/20 border border-slate-200 dark:border-white/10 rounded-lg py-3 pl-11 pr-4 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all dark:text-white css-color-scheme-dark" />
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="w-full bg-primary hover:bg-primary/90 text-background-dark font-bold py-3.5 rounded-lg transition-all transform active:scale-[0.98] shadow-lg shadow-primary/20 flex justify-center items-center gap-2">
+                        <span class="material-symbols-outlined text-xl">event_available</span>
+                        Confirmar Agendamento
+                    </button>
+                </form>
+            </div>
+
+            <div class="lg:col-span-2 bg-white dark:bg-[#162a1d] p-6 rounded-xl shadow-xl shadow-black/10 border border-slate-200 dark:border-white/5">
+                <div class="flex items-center gap-2 mb-2">
+                    <span class="material-symbols-outlined text-primary text-2xl">task_alt</span>
+                    <h4 class="text-xl font-semibold text-slate-900 dark:text-white">Seu Plano de Ação Digital</h4>
+                </div>
+                <p class="text-sm text-slate-500 dark:text-slate-400 mb-4">Para atingir seu objetivo, complete as tarefas de educação financeira abaixo.</p>
+                <hr class="border-slate-200 dark:border-white/10 mb-6" />
+                
+                <div class="flex flex-col md:flex-row items-center gap-8">
+                    <div class="flex-1 w-full">
+                        <h5 class="text-lg font-bold text-slate-900 dark:text-white mb-2">Trilha: <span class="text-primary">@Model.Trilha.Titulo</span></h5>
+                        <p class="text-sm text-slate-600 dark:text-slate-300 mb-6">@Model.Trilha.Descricao</p>
+                        
+                        <div class="bg-slate-50 dark:bg-black/30 border border-primary/20 rounded-xl p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 transition-all hover:border-primary/50">
+                            <div>
+                                <div class="flex items-center gap-3 mb-1">
+                                    <span class="bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-xs font-bold px-2 py-1 rounded">Aula @Model.Aula.Ordem</span>
+                                    <span class="font-bold text-slate-900 dark:text-white">@Model.Aula.Titulo</span>
+                                </div>
+                                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">@Model.Aula.ConteudoTexto</p>
+                            </div>
+                            <button class="w-full sm:w-auto bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-200 text-white dark:text-slate-900 px-6 py-2.5 rounded-lg text-sm font-bold transition-colors flex items-center justify-center gap-2">
+                                <span class="material-symbols-outlined text-sm">play_circle</span>
+                                Assistir
+                            </button>
+                        </div>
+                    </div>
+                    <div class="hidden md:flex w-1/3 justify-center items-center">
+                        <div class="relative">
+                            <div class="absolute inset-0 bg-primary/20 blur-2xl rounded-full"></div>
+                            <span class="material-symbols-outlined text-8xl text-primary/80 relative z-10">computer</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="mt-12 flex flex-col items-center gap-4 pb-8">
+            <div class="flex items-center gap-2 text-xs text-slate-400 dark:text-slate-500">
+                <span class="material-symbols-outlined text-sm text-primary">verified_user</span>
+                Conexão Segura e Criptografada
+            </div>
+        </div>
+
+    </main>
+
+    <button class="fixed bottom-6 right-6 p-4 bg-white dark:bg-[#162a1d] text-primary rounded-full shadow-xl border border-slate-200 dark:border-white/10 hover:scale-110 transition-transform z-50">
+        <span class="material-symbols-outlined">support_agent</span>
+    </button>
+    
+    <style>
+        .css-color-scheme-dark::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+        }
+    </style>
+</body>
+</html>
