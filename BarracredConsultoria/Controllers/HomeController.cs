@@ -1,14 +1,14 @@
+using System;
 using Microsoft.AspNetCore.Mvc;
 using BarracredConsultoria.Models;
 using BarracredConsultoria.ViewModels;
 
 namespace BarracredConsultoria.Controllers;
 
-public class ConsultoriaController : Controller
+public class HomeController : Controller
 {
     public IActionResult Index()
     {
-        // Simulando os dados usando APENAS as Models que você forneceu
         var viewModel = new ConsultoriaViewModel
         {
             Usuario = new Usuario

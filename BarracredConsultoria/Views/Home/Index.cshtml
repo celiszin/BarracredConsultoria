@@ -4,32 +4,59 @@
     ViewData["Title"] = "Seu Portal de Consultoria";
     
     bool temDividas = Model.CondicaoFinanceira.TotalDividas > 0;
-    string corStatus = temDividas ? "text-danger" : "text-success";
+    string corStatus = temDividas ? "text-danger" : "text-verde-claro";
 }
 
+<style>
+    .text-verde-escuro { color: #004438 !important; }
+    .bg-verde-escuro { background-color: #004438 !important; }
+    
+    .btn-verde-medio { 
+        background-color: #008744 !important; 
+        color: #ffffff !important; 
+        border: none;
+        transition: background-color 0.3s ease;
+    }
+    .btn-verde-medio:hover { 
+        background-color: #006633 !important; 
+        color: #ffffff !important;
+    }
+    
+    .text-verde-claro { color: #1EB53A !important; }
+    .bg-verde-claro { background-color: #1EB53A !important; }
+    .border-verde-claro { border-color: #1EB53A !important; }
+</style>
+
 <div class="container mt-5">
-    <h2 class="text-success fw-bold mb-4">Painel do Cooperado</h2>
+    <h2 class="text-verde-escuro fw-bold mb-4">Painel do Cooperado</h2>
     <p class="text-muted">Análise realizada em: @Model.Usuario.DataAnalise.ToString("dd/MM/yyyy")</p>
+
+    @if (TempData["MensagemSucesso"] != null)
+    {
+        <div class="alert bg-verde-claro text-white border-0 shadow-sm mt-3">
+            <strong>Sucesso!</strong> @TempData["MensagemSucesso"]
+        </div>
+    }
 
     <div class="row g-4">
         <div class="col-md-6">
-            <div class="card shadow-sm border-0 h-100 border-start border-4 border-success">
+            <div class="card shadow-sm border-0 h-100 border-start border-4 border-verde-claro">
                 <div class="card-body">
-                    <h4 class="card-title text-success"><i class="fas fa-chart-line me-2"></i>Seu Momento Financeiro</h4>
+                    <h4 class="card-title text-verde-escuro"><i class="fas fa-chart-line me-2 text-verde-claro"></i>Seu Momento Financeiro</h4>
                     <hr />
                     <p class="fs-5 fw-bold @corStatus">@Model.CondicaoFinanceira.StatusAtual</p>
                     <ul class="list-group list-group-flush mt-3">
                         <li class="list-group-item d-flex justify-content-between px-0">
-                            <span>Renda Mensal:</span>
-                            <strong>@Model.CondicaoFinanceira.RendaMensal.ToString("C")</strong>
+                            <span class="text-verde-escuro">Renda Mensal:</span>
+                            <strong class="text-verde-escuro">@Model.CondicaoFinanceira.RendaMensal.ToString("C")</strong>
                         </li>
                         <li class="list-group-item d-flex justify-content-between px-0">
-                            <span>Dívidas Totais:</span>
+                            <span class="text-verde-escuro">Dívidas Totais:</span>
                             <strong class="@corStatus">@Model.CondicaoFinanceira.TotalDividas.ToString("C")</strong>
                         </li>
                         <li class="list-group-item d-flex justify-content-between px-0">
-                            <span>Seu Maior Objetivo:</span>
-                            <span class="badge bg-success align-self-center">@Model.Usuario.Objetivo</span>
+                            <span class="text-verde-escuro">Seu Maior Objetivo:</span>
+                            <span class="badge bg-verde-claro align-self-center">@Model.Usuario.Objetivo</span>
                         </li>
                     </ul>
                 </div>
@@ -39,24 +66,35 @@
         <div class="col-md-6">
             <div class="card shadow-sm border-0 h-100">
                 <div class="card-body bg-light rounded">
-                    <h4 class="card-title text-success"><i class="fas fa-comments me-2"></i>Consultoria Especializada</h4>
+                    <h4 class="card-title text-verde-escuro"><i class="fas fa-comments me-2 text-verde-claro"></i>Consultoria Especializada</h4>
                     <hr />
                     
                     <div class="d-flex align-items-center mb-3">
-                        <div class="bg-success text-white p-3 rounded text-center me-3">
+                        <div class="bg-verde-escuro text-white p-3 rounded text-center me-3">
                             <span class="d-block fw-bold fs-4">@Model.Agendamento.DataHora.ToString("dd")</span>
                             <span class="d-block small text-uppercase">@Model.Agendamento.DataHora.ToString("MMM")</span>
                         </div>
                         <div>
-                            <h6 class="mb-0 fw-bold">Consulta agendada para @Model.Agendamento.DataHora.ToString("HH:mm")</h6>
-                            <span class="badge bg-primary mt-1">Status: @Model.Agendamento.Status</span>
+                            <h6 class="mb-0 fw-bold text-verde-escuro">Consulta agendada para @Model.Agendamento.DataHora.ToString("HH:mm")</h6>
+                            <span class="badge bg-verde-claro mt-1">Status: @Model.Agendamento.Status</span>
                         </div>
                     </div>
 
-                    <div class="alert alert-warning border-0 shadow-sm mt-4">
-                        <h6 class="alert-heading fw-bold"><i class="fas fa-lightbulb me-1"></i> Dica Especializada</h6>
-                        <p class="mb-0 small">@Model.Agendamento.Observacoes</p>
+                    <div class="alert border-verde-claro border shadow-sm mt-4 bg-white">
+                        <h6 class="alert-heading fw-bold text-verde-escuro"><i class="fas fa-lightbulb me-1 text-verde-claro"></i> Dica Especializada</h6>
+                        <p class="mb-0 small text-dark">@Model.Agendamento.Observacoes</p>
                     </div>
+
+                    <form asp-controller="Home" asp-action="SalvarAgendamento" method="post" class="mt-4">
+                        <div class="mb-3">
+                            <label for="dataEscolhida" class="form-label fw-bold text-verde-escuro">Agendar / Remarcar Horário:</label>
+                            <input type="datetime-local" id="dataEscolhida" name="dataEscolhida" class="form-control" required>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-verde-medio w-100 fw-bold shadow-sm">
+                            <i class="fas fa-calendar-check me-2"></i> Confirmar Agendamento
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -64,28 +102,28 @@
         <div class="col-12">
             <div class="card shadow-sm border-0">
                 <div class="card-body">
-                    <h4 class="card-title text-success"><i class="fas fa-tasks me-2"></i>Seu Plano de Ação Digital</h4>
+                    <h4 class="card-title text-verde-escuro"><i class="fas fa-tasks me-2 text-verde-claro"></i>Seu Plano de Ação Digital</h4>
                     <p class="text-muted small">Para atingir seu objetivo, complete as tarefas de educação financeira abaixo.</p>
                     <hr />
                     
                     <div class="row align-items-center">
                         <div class="col-md-8">
-                            <h5 class="fw-bold">Trilha: @Model.Trilha.Titulo</h5>
+                            <h5 class="fw-bold text-verde-escuro">Trilha: @Model.Trilha.Titulo</h5>
                             <p class="mb-2">@Model.Trilha.Descricao</p>
                             
-                            <div class="card border border-success border-opacity-25 mt-3">
+                            <div class="card border border-verde-claro mt-3">
                                 <div class="card-body py-2 d-flex justify-content-between align-items-center">
                                     <div>
-                                        <span class="badge bg-secondary me-2">Aula @Model.Aula.Ordem</span>
-                                        <span class="fw-bold">@Model.Aula.Titulo</span>
+                                        <span class="badge bg-verde-escuro me-2">Aula @Model.Aula.Ordem</span>
+                                        <span class="fw-bold text-verde-escuro">@Model.Aula.Titulo</span>
                                         <p class="mb-0 small text-muted">@Model.Aula.ConteudoTexto</p>
                                     </div>
-                                    <button class="btn btn-sm btn-success rounded-pill px-3">Assistir</button>
+                                    <button class="btn btn-sm btn-verde-medio rounded-pill px-3">Assistir</button>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4 text-center mt-3 mt-md-0">
-                            <i class="fas fa-laptop-code fa-4x text-success opacity-25"></i>
+                            <i class="fas fa-laptop-code fa-4x text-verde-claro opacity-50"></i>
                         </div>
                     </div>
                 </div>

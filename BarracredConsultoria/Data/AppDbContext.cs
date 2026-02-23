@@ -9,7 +9,6 @@ public class BarracredContext : DbContext
     {
     }
 
-    // Cada DbSet representa uma tabela no Banco de Dados
     public DbSet<Usuario> Usuarios { get; set; }
     public DbSet<CondicaoFinanceira> CondicoesFinanceiras { get; set; }
     public DbSet<AgendamentoConsulta> Agendamentos { get; set; }
