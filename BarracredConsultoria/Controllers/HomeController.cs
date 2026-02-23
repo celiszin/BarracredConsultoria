@@ -1,31 +1,55 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using BarracredConsultoria.Models;
+using BarracredConsultoria.ViewModels;
 
 namespace BarracredConsultoria.Controllers;
 
-public class HomeController : Controller
+public class ConsultoriaController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
-
-    public HomeController(ILogger<HomeController> logger)
-    {
-        _logger = logger;
-    }
-
     public IActionResult Index()
     {
-        return View();
-    }
+        // Simulando os dados usando APENAS as Models que você forneceu
+        var viewModel = new ConsultoriaViewModel
+        {
+            Usuario = new Usuario
+            {
+                UsuarioId = 1,
+                RendaMensal = 4500.00m,
+                TotalDividas = 1200.00m,
+                Objetivo = "Criar Reserva de Emergência",
+                DataAnalise = DateTime.Now
+            },
+            CondicaoFinanceira = new CondicaoFinanceira
+            {
+                Id = 1,
+                StatusAtual = "Atenção: Endividamento Leve",
+                RendaMensal = 4500.00m,
+                TotalDividas = 1200.00m
+            },
+            Agendamento = new AgendamentoConsulta
+            {
+                Id = 1,
+                UsuarioId = "1",
+                DataHora = DateTime.Now.AddDays(2).AddHours(14), 
+                Status = "Confirmado",
+                Observacoes = "Dica do Consultor: Traga seus extratos bancários para analisarmos os juros das suas dívidas."
+            },
+            Trilha = new Trilha
+            {
+                Id = 1,
+                Titulo = "Saindo do Vermelho",
+                Descricao = "Passo a passo para organizar as contas e fazer sobrar dinheiro."
+            },
+            Aula = new Aula
+            {
+                Id = 1,
+                Titulo = "Mapeando seus gastos invisíveis",
+                TrilhaId = 1,
+                ConteudoTexto = "Assista a este vídeo antes da nossa consultoria.",
+                Ordem = 1
+            }
+        };
 
-    public IActionResult Privacy()
-    {
-        return View();
-    }
-
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        return View(viewModel);
     }
 }
