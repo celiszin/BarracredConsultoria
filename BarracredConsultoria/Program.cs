@@ -1,7 +1,16 @@
+using BarracredConsultoria.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+
+string conexao = builder.Configuration.GetConnectionString("BarraCon");
+builder.Services.AddDbContext<AppDbContext>(
+    options => options.UseMySQL(conexao) 
+);
 
 var app = builder.Build();
 

@@ -1,11 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using BarracredConsultoria.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace BarracredConsultoria.Data;
 
-public class BarracredContext : DbContext
+public class AppDbContext : IdentityDbContext
 {
-    public BarracredContext(DbContextOptions<BarracredContext> options) : base(options)
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
     }
 
