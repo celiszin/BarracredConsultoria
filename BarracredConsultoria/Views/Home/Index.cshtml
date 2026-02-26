@@ -127,31 +127,49 @@
                 </div>
                 <hr class="border-light-divider mb-6" />
                 
-                <div class="flex items-center mb-8 bg-surface-light p-5 rounded-xl border border-light-divider">
-                    <div class="bg-dark-green border border-dark-green text-white p-3 rounded-lg text-center mr-5 min-w-[75px] shadow-md">
-                        <span class="block font-extrabold text-2xl leading-none">@Model.Agendamento.DataHora.ToString("dd")</span>
-                        <span class="block text-[10px] uppercase tracking-widest mt-1 font-bold">@Model.Agendamento.DataHora.ToString("MMM")</span>
+                @if (Model.Agendamento != null)
+                {
+                    <div class="flex items-center mb-8 bg-surface-light p-5 rounded-xl border border-light-divider">
+                        <div class="bg-dark-green border border-dark-green text-white p-3 rounded-lg text-center mr-5 min-w-[75px] shadow-md">
+                            <span class="block font-extrabold text-2xl leading-none">@Model.Agendamento.DataHora.ToString("dd")</span>
+                            <span class="block text-[10px] uppercase tracking-widest mt-1 font-bold">@Model.Agendamento.DataHora.ToString("MMM")</span>
+                        </div>
+                        <div>
+                            <h6 class="font-bold text-dark-green mb-1">Consulta às @Model.Agendamento.DataHora.ToString("HH:mm")</h6>
+                            <span class="inline-block bg-light-green/20 text-dark-green px-2.5 py-1 rounded text-xs font-bold">Status: @Model.Agendamento.Status</span>
+                        </div>
                     </div>
-                    <div>
-                        <h6 class="font-bold text-dark-green mb-1">Consulta às @Model.Agendamento.DataHora.ToString("HH:mm")</h6>
-                        <span class="inline-block bg-light-green/20 text-dark-green px-2.5 py-1 rounded text-xs font-bold">Status: @Model.Agendamento.Status</span>
-                    </div>
-                </div>
 
-                <div class="bg-light-green/10 border border-light-green/30 rounded-xl p-5 mb-8 relative overflow-hidden">
-                    <div class="absolute -right-4 -top-4 opacity-10">
-                        <span class="material-symbols-outlined text-8xl text-light-green">lightbulb</span>
+                    @if (!string.IsNullOrEmpty(Model.Agendamento.Observacoes))
+                    {
+                        <div class="bg-light-green/10 border border-light-green/30 rounded-xl p-5 mb-8 relative overflow-hidden">
+                            <div class="absolute -right-4 -top-4 opacity-10">
+                                <span class="material-symbols-outlined text-8xl text-light-green">lightbulb</span>
+                            </div>
+                            <h6 class="font-extrabold text-dark-green flex items-center gap-2 mb-2 text-sm relative z-10">
+                                <span class="material-symbols-outlined text-light-green text-lg">lightbulb</span> 
+                                Dica do seu Consultor
+                            </h6>
+                            <p class="text-sm text-dark-green/80 relative z-10 font-medium leading-relaxed">@Model.Agendamento.Observacoes</p>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="bg-surface-light border border-light-divider rounded-xl p-5 mb-8 text-center">
+                        <span class="material-symbols-outlined text-dark-green/50 text-4xl mb-2">event_busy</span>
+                        <p class="text-dark-green/70 font-medium">Você ainda não possui consultas agendadas.</p>
                     </div>
-                    <h6 class="font-extrabold text-dark-green flex items-center gap-2 mb-2 text-sm relative z-10">
-                        <span class="material-symbols-outlined text-light-green text-lg">lightbulb</span> 
-                        Dica do seu Consultor
-                    </h6>
-                    <p class="text-sm text-dark-green/80 relative z-10 font-medium leading-relaxed">@Model.Agendamento.Observacoes</p>
-                </div>
+                }
 
                 <form asp-controller="Home" asp-action="SalvarAgendamento" method="post" class="mt-auto space-y-5">
+                    
+                    <input type="hidden" name="agendamentoId" value="@(Model.Agendamento != null ? Model.Agendamento.Id : 0)" />
+                    
                     <div class="space-y-2">
-                        <label for="dataEscolhida" class="text-sm font-bold text-dark-green ml-1">Agendar / Remarcar Horário:</label>
+                        <label for="dataEscolhida" class="text-sm font-bold text-dark-green ml-1">
+                            @(Model.Agendamento != null ? "Remarcar Horário:" : "Agendar Novo Horário:")
+                        </label>
                         <div class="relative">
                             <span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-dark-green/50 text-xl">calendar_month</span>
                             <input type="datetime-local" id="dataEscolhida" name="dataEscolhida" required 
@@ -264,7 +282,7 @@
                         </li>
                         <li class="flex items-center gap-3 text-dark-green/70 font-medium">
                             <span class="material-icons-round text-light-green">email</span>
-                            contato@barracred.com.br
+                            barracred@barracred.com.br
                         </li>
                     </ul>
                 </div>
