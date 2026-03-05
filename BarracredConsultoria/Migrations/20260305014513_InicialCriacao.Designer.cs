@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BarracredConsultoria.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260226175918_AtualizacaoModelAgendamento")]
-    partial class AtualizacaoModelAgendamento
+    [Migration("20260305014513_InicialCriacao")]
+    partial class InicialCriacao
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

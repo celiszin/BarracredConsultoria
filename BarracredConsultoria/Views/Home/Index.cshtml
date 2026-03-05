@@ -26,10 +26,10 @@
             theme: {
                 extend: {
                     colors: {
-                        "dark-green": "#004438",   // Textos, menus e seriedade
-                        "medium-green": "#008744", // Ações principais
-                        "light-green": "#1EB53A",  // Destaques e ícones
-                        "surface-light": "#F8FAF9", // Fundo do portal
+                        "dark-green": "#004438", 
+                        "medium-green": "#008744", 
+                        "light-green": "#1EB53A", 
+                        "surface-light": "#F8FAF9", 
                         "light-divider": "#E2E8E4",
                     },
                     fontFamily: {
@@ -58,7 +58,7 @@
                     <a class="text-sm font-semibold text-dark-green hover:text-light-green transition-colors" href="#">Início</a>
                     <a class="text-sm font-semibold text-dark-green hover:text-light-green transition-colors" href="#">Meus Serviços</a>
                     <a class="text-sm font-semibold text-dark-green hover:text-light-green transition-colors" href="#">Educação</a>
-                    <a class="text-sm font-semibold text-dark-green hover:text-light-green transition-colors" href="#">Simuladores</a>
+                    <a class="text-sm font-semibold text-dark-green hover:text-light-green transition-colors" asp-controller="Home" asp-action="Simulador">Simuladores</a>
                 </div>
                 
                 <div class="flex items-center gap-4">
@@ -154,18 +154,9 @@
                         </div>
                     }
                 }
-                else
-                {
-                    <div class="bg-surface-light border border-light-divider rounded-xl p-5 mb-8 text-center">
-                        <span class="material-symbols-outlined text-dark-green/50 text-4xl mb-2">event_busy</span>
-                        <p class="text-dark-green/70 font-medium">Você ainda não possui consultas agendadas.</p>
-                    </div>
-                }
 
                 <form asp-controller="Home" asp-action="SalvarAgendamento" method="post" class="mt-auto space-y-5">
-                    
                     <input type="hidden" name="agendamentoId" value="@(Model.Agendamento != null ? Model.Agendamento.Id : 0)" />
-                    
                     <div class="space-y-2">
                         <label for="dataEscolhida" class="text-sm font-bold text-dark-green ml-1">
                             @(Model.Agendamento != null ? "Remarcar Horário:" : "Agendar Novo Horário:")
@@ -176,7 +167,6 @@
                                    class="w-full bg-surface-light border border-light-divider text-dark-green font-medium rounded-lg py-3.5 pl-11 pr-4 focus:ring-2 focus:ring-medium-green focus:border-transparent outline-none transition-all shadow-sm" />
                         </div>
                     </div>
-                    
                     <button type="submit" class="w-full bg-medium-green hover:bg-[#007038] text-white font-bold py-4 rounded-lg transition-all transform hover:-translate-y-0.5 shadow-lg shadow-medium-green/20 flex justify-center items-center gap-2">
                         <span class="material-symbols-outlined text-xl">event_available</span>
                         Confirmar Agendamento
@@ -184,60 +174,33 @@
                 </form>
             </div>
 
-            <div class="lg:col-span-2 bg-white p-8 md:p-10 rounded-2xl shadow-lg border border-light-divider">
-                <div class="flex items-center gap-3 mb-3">
-                    <div class="w-12 h-12 bg-light-green/10 rounded-xl flex items-center justify-center">
-                        <span class="material-symbols-outlined text-light-green text-2xl">task_alt</span>
-                    </div>
-                    <h4 class="text-2xl font-extrabold text-dark-green">Seu Plano de Ação Digital</h4>
-                </div>
-                <p class="text-dark-green/70 mb-6 font-medium">Para atingir seu objetivo, complete as tarefas de educação financeira abaixo.</p>
-                <hr class="border-light-divider mb-8" />
-                
-                <div class="flex flex-col md:flex-row items-center gap-10">
-                    <div class="flex-1 w-full">
-                        <h5 class="text-xl font-extrabold text-dark-green mb-3">Trilha: <span class="text-medium-green">@Model.Trilha.Titulo</span></h5>
-                        <p class="text-dark-green/70 mb-8 leading-relaxed font-medium">@Model.Trilha.Descricao</p>
-                        
-                        <div class="bg-surface-light border border-light-divider rounded-xl p-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 transition-all hover:border-light-green/50 hover:shadow-md">
-                            <div>
-                                <div class="flex items-center gap-3 mb-2">
-                                    <span class="bg-dark-green text-white text-xs font-bold px-3 py-1.5 rounded uppercase tracking-wider">Aula @Model.Aula.Ordem</span>
-                                    <span class="font-extrabold text-dark-green text-lg">@Model.Aula.Titulo</span>
-                                </div>
-                                <p class="text-sm text-dark-green/60 mt-1 font-medium">@Model.Aula.ConteudoTexto</p>
-                            </div>
-                            <button class="w-full sm:w-auto bg-dark-green hover:bg-[#002b23] text-white px-8 py-3.5 rounded-lg text-sm font-bold transition-colors flex items-center justify-center gap-2 shadow-lg">
-                                <span class="material-symbols-outlined text-lg">play_circle</span>
-                                Assistir Aula
-                            </button>
+            <div class="lg:col-span-2 bg-white p-8 md:p-10 rounded-2xl shadow-lg border border-light-divider mt-2">
+                <div class="flex items-center justify-between mb-8">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 bg-light-green/10 rounded-xl flex items-center justify-center">
+                            <span class="material-symbols-outlined text-light-green text-2xl" id="form-icon">assignment</span>
+                        </div>
+                        <div>
+                            <h4 class="text-2xl font-extrabold text-dark-green" id="form-title">Pesquisa de Satisfação</h4>
+                            <p class="text-sm text-dark-green/60 font-medium" id="form-subtitle">Sua opinião é fundamental para nós.</p>
                         </div>
                     </div>
                     
-                    <div class="hidden md:flex w-1/3 justify-center items-center relative">
-                        <div class="absolute inset-0 bg-light-green/10 blur-3xl rounded-full"></div>
-                        <span class="material-symbols-outlined text-[8rem] text-medium-green relative z-10">computer</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="lg:col-span-2 bg-white p-8 md:p-10 rounded-2xl shadow-lg border border-light-divider mt-2">
-                <div class="flex items-center gap-3 mb-8">
-                    <div class="w-12 h-12 bg-light-green/10 rounded-xl flex items-center justify-center">
-                        <span class="material-symbols-outlined text-light-green text-2xl">assignment</span>
-                    </div>
-                    <h4 class="text-2xl font-extrabold text-dark-green">Pesquisa de Satisfação</h4>
+                    <button onclick="marcarComoRespondido()" id="btn-concluir" class="bg-dark-green text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-medium-green transition-colors flex items-center gap-2">
+                        <span class="material-symbols-outlined text-sm">done_all</span>
+                        Já respondi este formulário
+                    </button>
                 </div>
                 
-                <div class="w-full overflow-hidden rounded-xl border border-light-divider bg-surface-light">
-                    <iframe src="https://beforms.becompliance.com/67bca1d1f0eede0009c7b3b3" 
-                            width="100%" 
-                            height="600" 
-                            frameborder="0" 
-                            marginheight="0" 
-                            marginwidth="0"
-                            class="w-full">
+                <div class="w-full overflow-hidden rounded-xl border border-light-divider bg-surface-light" id="form-container">
+                    <iframe id="iframe-satisfacao" src="https://beforms.becompliance.com/67bca1d1f0eede0009c7b3b3" 
+                            width="100%" height="600" frameborder="0" class="w-full">
                         Carregando formulário...
+                    </iframe>
+
+                    <iframe id="iframe-final" allowtransparency="true" allowfullscreen="true" allow="geolocation; microphone; camera" 
+                            src="https://2fjnw12b.forms.app/form/69a02b5db668063afa589b63" 
+                            frameborder="0" style="width: 100%; min-width:100%; height:80vh; border:none; display:none;">
                     </iframe>
                 </div>
             </div>
@@ -270,7 +233,6 @@
                     <ul class="space-y-3">
                         <li><a class="text-dark-green/70 hover:text-medium-green transition-colors font-medium" href="#">Simuladores</a></li>
                         <li><a class="text-dark-green/70 hover:text-medium-green transition-colors font-medium" href="#">Educação Financeira</a></li>
-                        <li><a class="text-dark-green/70 hover:text-medium-green transition-colors font-medium" href="#">Canais de Atendimento</a></li>
                     </ul>
                 </div>
                 <div>
@@ -287,19 +249,41 @@
                     </ul>
                 </div>
             </div>
-            <div class="pt-8 border-t border-light-divider flex flex-col md:flex-row justify-between items-center gap-6 text-sm text-dark-green/50 font-semibold">
-                <p>© 2024 BarraCred Cooperativa de Crédito. Todos os direitos reservados.</p>
-                <div class="flex gap-8">
-                    <a class="hover:text-medium-green transition-colors" href="#">Privacidade</a>
-                    <a class="hover:text-medium-green transition-colors" href="#">Termos</a>
-                </div>
-            </div>
         </div>
     </footer>
 
-    <button class="fixed bottom-6 right-6 p-4 bg-light-green text-white rounded-full shadow-xl border border-light-green/20 hover:scale-110 transition-transform z-50 flex items-center justify-center">
-        <span class="material-symbols-outlined text-2xl">support_agent</span>
-    </button>
-    
+    <script>
+        window.onload = function() {
+            if (localStorage.getItem("formSatisfacaoRespondido") === "true") {
+                exibirFormularioFinal();
+            }
+        };
+
+        function marcarComoRespondido() {
+            localStorage.setItem("formSatisfacaoRespondido", "true");
+            exibirFormularioFinal();
+            
+            document.getElementById('form-title').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function exibirFormularioFinal() {
+            const titulo = document.getElementById('form-title');
+            const subtitulo = document.getElementById('form-subtitle');
+            const icone = document.getElementById('form-icon');
+            const btnConcluir = document.getElementById('btn-concluir');
+            
+            const iframe1 = document.getElementById('iframe-satisfacao');
+            const iframe2 = document.getElementById('iframe-final');
+
+            titulo.innerText = "Formulário de Consultoria";
+            subtitulo.innerText = "Continue sua jornada preenchendo as informações abaixo.";
+            icone.innerText = "description";
+            
+            btnConcluir.style.display = "none";
+            iframe1.style.display = "none";
+            
+            iframe2.style.display = "block";
+        }
+    </script>
 </body>
 </html>
