@@ -44,7 +44,7 @@
 
 <body class="bg-surface-light text-dark-green min-h-screen flex flex-col">
     
-    <nav class="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-md nav-shadow border-b border-light-divider">
+    <nav class="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-md border-b border-light-divider">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
                 <div class="flex items-center gap-2">
@@ -55,17 +55,17 @@
                 </div>
                 
                 <div class="hidden md:flex items-center space-x-10">
-                    <a class="text-sm font-semibold text-dark-green hover:text-light-green transition-colors" href="#">Início</a>
-                    <a class="text-sm font-semibold text-dark-green hover:text-light-green transition-colors" href="#">Meus Serviços</a>
-                    <a class="text-sm font-semibold text-dark-green hover:text-light-green transition-colors" href="#">Educação</a>
+                    <a class="text-sm font-semibold text-dark-green hover:text-light-green transition-colors" asp-controller="Home" asp-action="Index">Início</a>
+                    <a class="text-sm font-semibold text-dark-green hover:text-light-green transition-colors" asp-controller="Servicos" asp-action="Index">Meus Serviços</a>
+                    <a class="text-sm font-semibold text-dark-green hover:text-light-green transition-colors" asp-controller="Home" asp-action="Teste">Educação</a>
                     <a class="text-sm font-semibold text-dark-green hover:text-light-green transition-colors" asp-controller="Home" asp-action="Simulador">Simuladores</a>
                 </div>
                 
                 <div class="flex items-center gap-4">
-                    <button class="px-6 py-2.5 bg-medium-green hover:bg-[#007038] text-white text-sm font-bold rounded transition-all flex items-center gap-2">
+                    <a asp-controller="Account" asp-action="Login" class="px-6 py-2.5 bg-medium-green hover:bg-[#007038] text-white text-sm font-bold rounded transition-all flex items-center gap-2 shadow-lg shadow-medium-green/20">
                         <span class="material-icons-round text-sm">person</span>
                         Meu Perfil
-                    </button>
+                    </a>
                 </div>
             </div>
         </div>
@@ -91,7 +91,7 @@
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
             
-            <div class="bg-white p-8 rounded-2xl shadow-lg border-t-4 border-t-medium-green border border-light-divider flex flex-col card-hover">
+            <div class="bg-white p-8 rounded-2xl shadow-lg border-t-4 border-t-medium-green border border-light-divider flex flex-col hover:shadow-xl transition-shadow">
                 <div class="flex items-center gap-3 mb-6">
                     <div class="w-12 h-12 bg-light-green/10 rounded-xl flex items-center justify-center">
                         <span class="material-symbols-outlined text-light-green text-2xl">trending_up</span>
@@ -118,7 +118,7 @@
                 </ul>
             </div>
 
-            <div class="bg-white p-8 rounded-2xl shadow-lg border border-light-divider flex flex-col card-hover">
+            <div class="bg-white p-8 rounded-2xl shadow-lg border border-light-divider flex flex-col hover:shadow-xl transition-shadow">
                 <div class="flex items-center gap-3 mb-6">
                     <div class="w-12 h-12 bg-light-green/10 rounded-xl flex items-center justify-center">
                         <span class="material-symbols-outlined text-light-green text-2xl">forum</span>
@@ -130,7 +130,7 @@
                 @if (Model.Agendamento != null)
                 {
                     <div class="flex items-center mb-8 bg-surface-light p-5 rounded-xl border border-light-divider">
-                        <div class="bg-dark-green border border-dark-green text-white p-3 rounded-lg text-center mr-5 min-w-[75px] shadow-md">
+                        <div class="bg-dark-green text-white p-3 rounded-lg text-center mr-5 min-w-[75px] shadow-md">
                             <span class="block font-extrabold text-2xl leading-none">@Model.Agendamento.DataHora.ToString("dd")</span>
                             <span class="block text-[10px] uppercase tracking-widest mt-1 font-bold">@Model.Agendamento.DataHora.ToString("MMM")</span>
                         </div>
@@ -139,20 +139,6 @@
                             <span class="inline-block bg-light-green/20 text-dark-green px-2.5 py-1 rounded text-xs font-bold">Status: @Model.Agendamento.Status</span>
                         </div>
                     </div>
-
-                    @if (!string.IsNullOrEmpty(Model.Agendamento.Observacoes))
-                    {
-                        <div class="bg-light-green/10 border border-light-green/30 rounded-xl p-5 mb-8 relative overflow-hidden">
-                            <div class="absolute -right-4 -top-4 opacity-10">
-                                <span class="material-symbols-outlined text-8xl text-light-green">lightbulb</span>
-                            </div>
-                            <h6 class="font-extrabold text-dark-green flex items-center gap-2 mb-2 text-sm relative z-10">
-                                <span class="material-symbols-outlined text-light-green text-lg">lightbulb</span> 
-                                Dica do seu Consultor
-                            </h6>
-                            <p class="text-sm text-dark-green/80 relative z-10 font-medium leading-relaxed">@Model.Agendamento.Observacoes</p>
-                        </div>
-                    }
                 }
 
                 <form asp-controller="Home" asp-action="SalvarAgendamento" method="post" class="mt-auto space-y-5">
@@ -164,7 +150,7 @@
                         <div class="relative">
                             <span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-dark-green/50 text-xl">calendar_month</span>
                             <input type="datetime-local" id="dataEscolhida" name="dataEscolhida" required 
-                                   class="w-full bg-surface-light border border-light-divider text-dark-green font-medium rounded-lg py-3.5 pl-11 pr-4 focus:ring-2 focus:ring-medium-green focus:border-transparent outline-none transition-all shadow-sm" />
+                                   class="w-full bg-surface-light border border-light-divider text-dark-green font-medium rounded-lg py-3.5 pl-11 pr-4 focus:ring-2 focus:ring-medium-green outline-none transition-all shadow-sm" />
                         </div>
                     </div>
                     <button type="submit" class="w-full bg-medium-green hover:bg-[#007038] text-white font-bold py-4 rounded-lg transition-all transform hover:-translate-y-0.5 shadow-lg shadow-medium-green/20 flex justify-center items-center gap-2">
@@ -188,64 +174,42 @@
                     
                     <button onclick="marcarComoRespondido()" id="btn-concluir" class="bg-dark-green text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-medium-green transition-colors flex items-center gap-2">
                         <span class="material-symbols-outlined text-sm">done_all</span>
-                        Já respondi este formulário
+                        Já respondi
                     </button>
                 </div>
                 
                 <div class="w-full overflow-hidden rounded-xl border border-light-divider bg-surface-light" id="form-container">
-                    <iframe id="iframe-satisfacao" src="https://beforms.becompliance.com/67bca1d1f0eede0009c7b3b3" 
-                            width="100%" height="600" frameborder="0" class="w-full">
-                        Carregando formulário...
-                    </iframe>
-
-                    <iframe id="iframe-final" allowtransparency="true" allowfullscreen="true" allow="geolocation; microphone; camera" 
-                            src="https://2fjnw12b.forms.app/form/69a02b5db668063afa589b63" 
-                            frameborder="0" style="width: 100%; min-width:100%; height:80vh; border:none; display:none;">
-                    </iframe>
+                    <iframe id="iframe-satisfacao" src="https://beforms.becompliance.com/67bca1d1f0eede0009c7b3b3" width="100%" height="600" frameborder="0" class="w-full"></iframe>
+                    <iframe id="iframe-final" allowtransparency="true" src="https://2fjnw12b.forms.app/form/69a02b5db668063afa589b63" frameborder="0" style="width: 100%; height:80vh; border:none; display:none;"></iframe>
                 </div>
-            </div>
-        </div>
-
-        <div class="mt-16 flex flex-col items-center gap-4">
-            <div class="flex items-center gap-2 text-xs font-bold text-dark-green/50 uppercase tracking-widest">
-                <span class="material-symbols-outlined text-sm text-light-green">verified_user</span>
-                Conexão Segura e Criptografada
             </div>
         </div>
     </main>
 
-    <footer class="bg-white border-t border-light-divider pt-20 pb-10">
+    <footer class="bg-white border-t border-light-divider pt-16 pb-10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid md:grid-cols-4 gap-16 mb-16">
+            <div class="grid md:grid-cols-4 gap-12 mb-12">
                 <div class="col-span-2">
                     <div class="flex items-center gap-2 mb-6">
-                        <div class="w-9 h-9 bg-medium-green rounded flex items-center justify-center">
+                        <div class="w-9 h-9 bg-medium-green rounded flex items-center justify-center shadow-sm">
                             <span class="material-icons-round text-white text-lg">account_balance</span>
                         </div>
                         <span class="text-2xl font-extrabold tracking-tight text-dark-green">Barra<span class="text-medium-green">Cred</span></span>
                     </div>
-                    <p class="text-dark-green/70 max-w-sm leading-relaxed font-medium">
-                        Sua parceira estratégica em saúde financeira. Comprometidos com a transparência, ética e o desenvolvimento dos nossos cooperados.
-                    </p>
+                    <p class="text-dark-green/70 max-w-sm leading-relaxed font-medium">Sua parceira em saúde financeira. Comprometidos com a transparência e o desenvolvimento do cooperado.</p>
                 </div>
                 <div>
-                    <h5 class="text-dark-green font-extrabold mb-6 text-lg">Links Rápidos</h5>
+                    <h5 class="text-dark-green font-extrabold mb-6">Links Rápidos</h5>
                     <ul class="space-y-3">
-                        <li><a class="text-dark-green/70 hover:text-medium-green transition-colors font-medium" href="#">Simuladores</a></li>
-                        <li><a class="text-dark-green/70 hover:text-medium-green transition-colors font-medium" href="#">Educação Financeira</a></li>
+                        <li><a class="text-dark-green/70 hover:text-medium-green transition-colors font-medium" asp-controller="Home" asp-action="Simulador">Simuladores</a></li>
+                        <li><a class="text-dark-green/70 hover:text-medium-green transition-colors font-medium" asp-controller="Home" asp-action="Teste">Educação Financeira</a></li>
                     </ul>
                 </div>
                 <div>
-                    <h5 class="text-dark-green font-extrabold mb-6 text-lg">Contato</h5>
-                    <ul class="space-y-4">
-                        <li class="flex items-center gap-3 text-dark-green/70 font-medium">
-                            <span class="material-icons-round text-light-green">phone</span>
-                            0800 123 4567
-                        </li>
-                        <li class="flex items-center gap-3 text-dark-green/70 font-medium">
-                            <span class="material-icons-round text-light-green">email</span>
-                            barracred@barracred.com.br
-                        </li>
+                    <h5 class="text-dark-green font-extrabold mb-6">Contato</h5>
+                    <ul class="space-y-3">
+                        <li class="flex items-center gap-3 text-dark-green/70 font-medium"><span class="material-icons-round text-light-green text-sm">phone</span> 0800 123 4567</li>
+                        <li class="flex items-center gap-3 text-dark-green/70 font-medium"><span class="material-icons-round text-light-green text-sm">email</span> barracred@barracred.com.br</li>
                     </ul>
                 </div>
             </div>
@@ -253,36 +217,15 @@
     </footer>
 
     <script>
-        window.onload = function() {
-            if (localStorage.getItem("formSatisfacaoRespondido") === "true") {
-                exibirFormularioFinal();
-            }
-        };
-
-        function marcarComoRespondido() {
-            localStorage.setItem("formSatisfacaoRespondido", "true");
-            exibirFormularioFinal();
-            
-            document.getElementById('form-title').scrollIntoView({ behavior: 'smooth' });
-        }
-
+        window.onload = function() { if (localStorage.getItem("formSatisfacaoRespondido") === "true") exibirFormularioFinal(); };
+        function marcarComoRespondido() { localStorage.setItem("formSatisfacaoRespondido", "true"); exibirFormularioFinal(); document.getElementById('form-title').scrollIntoView({ behavior: 'smooth' }); }
         function exibirFormularioFinal() {
-            const titulo = document.getElementById('form-title');
-            const subtitulo = document.getElementById('form-subtitle');
-            const icone = document.getElementById('form-icon');
-            const btnConcluir = document.getElementById('btn-concluir');
-            
-            const iframe1 = document.getElementById('iframe-satisfacao');
-            const iframe2 = document.getElementById('iframe-final');
-
-            titulo.innerText = "Formulário de Consultoria";
-            subtitulo.innerText = "Continue sua jornada preenchendo as informações abaixo.";
-            icone.innerText = "description";
-            
-            btnConcluir.style.display = "none";
-            iframe1.style.display = "none";
-            
-            iframe2.style.display = "block";
+            document.getElementById('form-title').innerText = "Formulário de Consultoria";
+            document.getElementById('form-subtitle').innerText = "Continue preenchendo as informações abaixo.";
+            document.getElementById('form-icon').innerText = "description";
+            document.getElementById('btn-concluir').style.display = "none";
+            document.getElementById('iframe-satisfacao').style.display = "none";
+            document.getElementById('iframe-final').style.display = "block";
         }
     </script>
 </body>

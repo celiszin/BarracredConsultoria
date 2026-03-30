@@ -1,0 +1,151 @@
+@model BarracredConsultoria.ViewModels.AcessoSessaoViewModel
+@{
+    Layout = null;
+    ViewData["Title"] = "BarraCred - Acesso";
+}
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>@ViewData["Title"]</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#008744",
+                        "primary-hover": "#007038",
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { background-color: #F3F4F6; font-family: 'Montserrat', sans-serif; -webkit-font-smoothing: antialiased; }
+        .login-card { background-color: #ffffff; border-radius: 1rem; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05); }
+        input:focus { border-color: #008744 !important; outline: none; box-shadow: 0 0 0 3px rgba(0, 135, 68, 0.2) !important; }
+        .hidden { display: none; }
+    </style>
+</head>
+
+<body class="min-h-screen flex items-center justify-center p-6">
+    <div class="max-w-md w-full">
+        <div class="flex items-center justify-center gap-3 mb-10">
+            <div class="w-12 h-12 bg-primary rounded-xl flex items-center justify-center shadow-lg shadow-primary/20">
+                <span class="material-icons-round text-white text-3xl">account_balance_wallet</span>
+            </div>
+            <span class="font-extrabold text-3xl tracking-tight text-primary">BarraCred</span>
+        </div>
+
+        <div class="bg-white login-card rounded-2xl p-8 md:p-10">
+            
+            <div id="loginSection">
+                <div class="mb-8">
+                    <h1 class="text-2xl font-bold text-gray-900 mb-2">Acesse sua conta</h1>
+                    @if (ViewBag.Error != null) {
+                        <p class="text-red-500 text-xs font-bold bg-red-50 p-2 rounded mb-4">@ViewBag.Error</p>
+                    }
+                </div>
+                <form asp-controller="Account" asp-action="Login" method="POST" class="space-y-6">
+                    <input type="hidden" asp-for="Login.UrlRetorno" />
+                    
+                    <div>
+                        <label asp-for="Login.Email" class="block text-sm font-semibold text-gray-700 mb-2"></label>
+                        <input asp-for="Login.Email" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl" />
+                        <span asp-validation-for="Login.Email" class="text-red-500 text-xs mt-1"></span>
+                    </div>
+
+                    <div>
+                        <label asp-for="Login.Senha" class="block text-sm font-semibold text-gray-700 mb-2"></label>
+                        <div class="relative">
+                            <input asp-for="Login.Senha" id="passLogin" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl" />
+                            <button type="button" onclick="togglePass('passLogin')" class="absolute right-4 top-3.5 text-gray-400">
+                                <span class="material-symbols-outlined text-xl">visibility</span>
+                            </button>
+                        </div>
+                        <span asp-validation-for="Login.Senha" class="text-red-500 text-xs mt-1"></span>
+                    </div>
+
+                    <div class="flex items-center gap-2">
+                        <input asp-for="Login.Lembrar" class="rounded border-gray-300 text-primary focus:ring-primary" />
+                        <label asp-for="Login.Lembrar" class="text-sm text-gray-600"></label>
+                    </div>
+
+                    <button type="submit" class="w-full bg-primary hover:bg-primary-hover text-white font-bold py-4 rounded-xl transition-all">Entrar</button>
+                </form>
+                <p class="mt-8 text-center text-sm text-gray-500">Ainda não é cooperado? <button onclick="showRegister()" class="text-primary font-bold hover:underline">Cadastre-se</button></p>
+            </div>
+
+            <div id="registerSection" class="hidden">
+                <div class="mb-8">
+                    <h1 class="text-2xl font-bold text-gray-900 mb-2">Criar conta</h1>
+                </div>
+                <form asp-controller="Account" asp-action="Cadastro" method="POST" enctype="multipart/form-data" class="space-y-4">
+                    
+                    <div>
+                        <label asp-for="Registro.Nome" class="block text-sm font-semibold text-gray-700 mb-1"></label>
+                        <input asp-for="Registro.Nome" class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-xl" />
+                        <span asp-validation-for="Registro.Nome" class="text-red-500 text-xs"></span>
+                    </div>
+
+                    <div>
+                        <label asp-for="Registro.Email" class="block text-sm font-semibold text-gray-700 mb-1"></label>
+                        <input asp-for="Registro.Email" class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-xl" />
+                        <span asp-validation-for="Registro.Email" class="text-red-500 text-xs"></span>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label asp-for="Registro.DataNascimento" class="block text-sm font-semibold text-gray-700 mb-1"></label>
+                            <input asp-for="Registro.DataNascimento" class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-xl" />
+                            <span asp-validation-for="Registro.DataNascimento" class="text-red-500 text-xs"></span>
+                        </div>
+                        <div>
+                            <label asp-for="Registro.Foto" class="block text-sm font-semibold text-gray-700 mb-1">Foto de Perfil</label>
+                            <input asp-for="Registro.Foto" type="file" class="w-full text-xs text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:bg-primary file:text-white hover:file:bg-primary-hover" />
+                        </div>
+                    </div>
+
+                    <div>
+                        <label asp-for="Registro.Senha" class="block text-sm font-semibold text-gray-700 mb-1"></label>
+                        <input asp-for="Registro.Senha" class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-xl" />
+                        <span asp-validation-for="Registro.Senha" class="text-red-500 text-xs"></span>
+                    </div>
+
+                    <div>
+                        <label asp-for="Registro.ConfirmacaoSenha" class="block text-sm font-semibold text-gray-700 mb-1"></label>
+                        <input asp-for="Registro.ConfirmacaoSenha" class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-xl" />
+                        <span asp-validation-for="Registro.ConfirmacaoSenha" class="text-red-500 text-xs"></span>
+                    </div>
+
+                    <button type="submit" class="w-full bg-primary hover:bg-primary-hover text-white font-bold py-4 rounded-xl transition-all">Cadastrar</button>
+                </form>
+                <p class="mt-8 text-center text-sm text-gray-500">Já tem conta? <button onclick="showLogin()" class="text-primary font-bold hover:underline">Voltar ao Login</button></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function togglePass(id) {
+            const input = document.getElementById(id);
+            input.type = input.type === "password" ? "text" : "password";
+        }
+        function showRegister() {
+            document.getElementById('loginSection').classList.add('hidden');
+            document.getElementById('registerSection').classList.remove('hidden');
+        }
+        function showLogin() {
+            document.getElementById('registerSection').classList.add('hidden');
+            document.getElementById('loginSection').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

@@ -1,26 +1,26 @@
-using System;
-using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BarracredConsultoria.Models
 {
-    public class Usuario
+    public class Usuario : IdentityUser
     {
-        [Key]
-        public int UsuarioId { get; set; }
+        [Required]
+        [StringLength(100)]
+        public string Nome { get; set; } = string.Empty;
 
-        [Display(Name = "Renda Mensal")]
-        [DataType(DataType.Currency)]
+        [Column(TypeName = "decimal(18,2)")]
         public decimal RendaMensal { get; set; }
 
-        [Display(Name = "Total de Dívidas")]
-        [DataType(DataType.Currency)]
+        [Column(TypeName = "decimal(18,2)")]
         public decimal TotalDividas { get; set; }
 
-        [Display(Name = "Objetivo")]
-        public string Objetivo { get; set; } 
+        public string Objetivo { get; set; }
+
+        public DateTime DataNascimento { get; set; }
+
+        public string Foto { get; set; }
 
         public DateTime DataAnalise { get; set; } = DateTime.Now;
     }

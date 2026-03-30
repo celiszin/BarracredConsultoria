@@ -11,18 +11,13 @@ namespace BarracredConsultoria.Models
     {
         [Key]
         public int Id { get; set; }
-
         [Required]
-        public string Titulo { get; set; }  
-
-        public string ConteudoTexto { get; set; } 
-
+        public string Titulo { get; set; } = string.Empty;
+        public string ConteudoTexto { get; set; }
         public string VideoUrl { get; set; }
-
-        public int Ordem { get; set; } 
-
+        public int Ordem { get; set; }
         public int TrilhaId { get; set; }
         [ForeignKey("TrilhaId")]
-        public virtual Trilha Trilha { get; set; }
+        public virtual Trilha Trilha { get; set; } = null!;
     }
 }

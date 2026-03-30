@@ -11,17 +11,10 @@ namespace BarracredConsultoria.Models
     {
         [Key]
         public int Id { get; set; }
-
-        [Required(ErrorMessage = "O título da trilha é obrigatório")]
-        [Display(Name = "Título")]
+        [Required]
         public string Titulo { get; set; } = string.Empty;
-
-        [Display(Name = "Descrição")]
         public string Descricao { get; set; }
-
-        [Display(Name = "URL da Imagem de Capa")]
         public string ImagemUrl { get; set; }
-
         public virtual ICollection<Aula> Aulas { get; set; } = new List<Aula>();
     }
 }

@@ -4,17 +4,20 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BarracredConsultoria.Models;
 using BarracredConsultoria.ViewModels;
-using BarracredConsultoria.Data; 
+using BarracredConsultoria.Data;
+using Microsoft.AspNetCore.Identity;
 
 namespace BarracredConsultoria.Controllers
 {
     public class HomeController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly UserManager<Usuario> _userManager;
 
-        public HomeController(AppDbContext context)
+        public HomeController(AppDbContext context, UserManager<Usuario> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         public async Task<IActionResult> Index()
@@ -29,17 +32,25 @@ namespace BarracredConsultoria.Controllers
             return View(viewModel);
         }
 
+        public async Task<IActionResult> Teste()
+        {
+            var mista = await ObterViewModelMista();
+            return View(mista.Usuario);
+        }
+
         [HttpPost]
         public async Task<IActionResult> SalvarAgendamento(int agendamentoId, DateTime dataEscolhida)
         {
-            var agendamento = await _context.Agendamentos.FindAsync(agendamentoId) 
-                              ?? await _context.Agendamentos.FirstOrDefaultAsync(a => a.UsuarioId == "1");
+            string userIdSimulado = "1";
+
+            var agendamento = await _context.Agendamentos.FindAsync(agendamentoId)
+                              ?? await _context.Agendamentos.FirstOrDefaultAsync(a => a.UsuarioId == userIdSimulado);
 
             if (agendamento == null)
             {
                 agendamento = new AgendamentoConsulta
                 {
-                    UsuarioId = "1",
+                    UsuarioId = userIdSimulado,
                     DataHora = dataEscolhida,
                     Status = "Confirmado",
                     Observacoes = "Agendamento criado pelo portal."
@@ -64,15 +75,16 @@ namespace BarracredConsultoria.Controllers
 
         private async Task<ConsultoriaViewModel> ObterViewModelMista()
         {
-            var agendamentoDoBanco = await _context.Agendamentos.FirstOrDefaultAsync(a => a.UsuarioId == "1");
+            string userIdSimulado = "1";
+            var agendamentoDoBanco = await _context.Agendamentos.FirstOrDefaultAsync(a => a.UsuarioId == userIdSimulado);
 
             if (agendamentoDoBanco == null)
             {
                 agendamentoDoBanco = new AgendamentoConsulta
                 {
                     Id = 0,
-                    UsuarioId = "1",
-                    DataHora = DateTime.Now.AddDays(1).Date.AddHours(14), 
+                    UsuarioId = userIdSimulado,
+                    DataHora = DateTime.Now.AddDays(1).Date.AddHours(14),
                     Status = "Pendente",
                     Observacoes = "Escolha um horário para sua primeira consultoria."
                 };
@@ -82,7 +94,8 @@ namespace BarracredConsultoria.Controllers
             {
                 Usuario = new Usuario
                 {
-                    UsuarioId = 1,
+                    Id = userIdSimulado, 
+                    Nome = "Usuário Teste",
                     RendaMensal = 4500.00m,
                     TotalDividas = 1200.00m,
                     Objetivo = "Criar Reserva de Emergência",
