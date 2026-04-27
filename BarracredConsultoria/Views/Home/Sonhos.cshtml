@@ -5,7 +5,7 @@
     var etapaAtual = 2;
     var totalEtapas = 5;
     var progressoPercent = (etapaAtual * 100) / totalEtapas;
-    var perfilSelecionado = Model?.Objetivo ?? "Devedor";
+    var metaSelecionada = Model?.Objetivo ?? "Sair das Dívidas";
 }
 
 <!DOCTYPE html>
@@ -13,7 +13,7 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>BarraCred - Onboarding</title>
+    <title>BarraCred - Sonhos e Metas</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet" />
@@ -56,51 +56,53 @@
 
     <main class="max-w-5xl mx-auto pt-16 pb-24 px-6 flex-grow">
         <div class="text-center mb-12">
-            <h1 class="text-4xl font-extrabold text-gray-900 mb-4">Qual seu momento financeiro?</h1>
-            <p class="text-gray-500 text-lg">Selecione o perfil que melhor descreve seu objetivo atual.</p>
+            <h1 class="text-4xl font-extrabold text-gray-900 mb-4">Qual é o seu maior sonho hoje?</h1>
+            <p class="text-gray-500 text-lg">Defina sua principal meta para que possamos ajudar você a alcançá-la.</p>
         </div>
 
         <form id="onboardingForm" asp-action="SalvarOnboarding" asp-controller="Home" method="post">
             @* Campos ocultos para manter o estado do Usuário *@
             <input type="hidden" asp-for="Id" />
             <input type="hidden" asp-for="Nome" />
-            <input type="hidden" asp-for="Objetivo" id="inputObjetivo" value="@perfilSelecionado" />
+            <input type="hidden" asp-for="Objetivo" id="inputObjetivo" value="@metaSelecionada" />
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-                @* Card Poupador *@
-                <div onclick="selectProfile('Poupador')" id="card-Poupador" 
-                     class="profile-card flex flex-col items-center p-8 bg-white border border-gray-100 rounded-2xl @(perfilSelecionado == "Poupador" ? "active-card" : "")">
-                    <div class="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mb-6">
-                        <span class="material-icons-round text-primary text-4xl">savings</span>
+                
+                @* Card Sair das Dívidas *@
+                <div onclick="selectMeta('Sair das Dívidas', 'card-dividas')" id="card-dividas" 
+                     class="profile-card flex flex-col items-center p-8 bg-white border border-gray-100 rounded-2xl @(metaSelecionada == "Sair das Dívidas" ? "active-card" : "")">
+                    <div class="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center mb-6">
+                        <span class="material-icons-round text-red-500 text-4xl">money_off</span>
                     </div>
-                    <h3 class="text-xl font-bold mb-2">Poupador</h3>
-                    <p class="text-gray-500 text-sm text-center">Consigo guardar dinheiro todos os meses e mantenho uma reserva sólida.</p>
+                    <h3 class="text-xl font-bold mb-2 text-center">Sair das Dívidas</h3>
+                    <p class="text-gray-500 text-sm text-center">Quero limpar meu nome, organizar minhas finanças e voltar a ter paz.</p>
                 </div>
 
-                @* Card Devedor *@
-                <div onclick="selectProfile('Devedor')" id="card-Devedor" 
-                     class="profile-card flex flex-col items-center p-8 bg-white border border-gray-100 rounded-2xl @(perfilSelecionado == "Devedor" ? "active-card" : "")">
-                    <div class="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mb-6">
-                        <span class="material-icons-round text-primary text-4xl">credit_card_off</span>
+                @* Card Comprar um Bem *@
+                <div onclick="selectMeta('Comprar um Bem', 'card-bens')" id="card-bens" 
+                     class="profile-card flex flex-col items-center p-8 bg-white border border-gray-100 rounded-2xl @(metaSelecionada == "Comprar um Bem" ? "active-card" : "")">
+                    <div class="w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center mb-6">
+                        <span class="material-icons-round text-blue-500 text-4xl">home</span>
                     </div>
-                    <h3 class="text-xl font-bold mb-2">Devedor</h3>
-                    <p class="text-gray-500 text-sm text-center">Estou com dificuldades, possuo contas em atraso e preciso de crédito.</p>
+                    <h3 class="text-xl font-bold mb-2 text-center">Comprar um Bem</h3>
+                    <p class="text-gray-500 text-sm text-center">Quero juntar dinheiro para comprar minha casa própria, carro ou outro bem.</p>
                 </div>
 
-                @* Card Investidor *@
-                <div onclick="selectProfile('Investidor')" id="card-Investidor" 
-                     class="profile-card flex flex-col items-center p-8 bg-white border border-gray-100 rounded-2xl @(perfilSelecionado == "Investidor" ? "active-card" : "")">
+                @* Card Liberdade Financeira *@
+                <div onclick="selectMeta('Liberdade Financeira', 'card-liberdade')" id="card-liberdade" 
+                     class="profile-card flex flex-col items-center p-8 bg-white border border-gray-100 rounded-2xl @(metaSelecionada == "Liberdade Financeira" ? "active-card" : "")">
                     <div class="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mb-6">
-                        <span class="material-icons-round text-primary text-4xl">trending_up</span>
+                        <span class="material-icons-round text-primary text-4xl">flight_takeoff</span>
                     </div>
-                    <h3 class="text-xl font-bold mb-2">Investidor</h3>
-                    <p class="text-gray-500 text-sm text-center">Já tenho reservas e busco as melhores rentabilidades para meu patrimônio.</p>
+                    <h3 class="text-xl font-bold mb-2 text-center">Liberdade Financeira</h3>
+                    <p class="text-gray-500 text-sm text-center">Quero criar uma reserva forte, investir e viver de rendimentos no futuro.</p>
                 </div>
+
             </div>
 
             <div class="flex items-center justify-center gap-3 text-gray-400 bg-gray-50 w-fit mx-auto px-6 py-3 rounded-full">
                 <span class="material-icons-round text-xl">verified_user</span>
-                <p class="text-sm font-medium">Suas respostas são confidenciais e protegidas.</p>
+                <p class="text-sm font-medium">Suas metas nos ajudam a personalizar suas consultorias.</p>
             </div>
         </form>
     </main>
@@ -108,23 +110,23 @@
     <footer class="w-full bg-white border-t border-gray-100 py-8">
         <div class="max-w-5xl mx-auto px-6 flex items-center justify-between">
             <a asp-controller="Home" asp-action="Index" class="flex items-center gap-2 px-8 py-4 font-bold text-gray-400 hover:text-black transition-colors rounded-xl">
-                <span class="material-icons-round">arrow_back</span> Anterior
+                <span class="material-icons-round">arrow_back</span> Voltar ao Painel
             </a>
             <button type="submit" form="onboardingForm" class="bg-primary hover:bg-primary-dark text-white font-extrabold px-14 py-5 rounded-2xl shadow-lg transition-all transform hover:scale-105 active:scale-95 flex items-center gap-2">
-                Próxima Etapa <span class="material-icons-round">arrow_forward</span>
+                Salvar Minha Meta <span class="material-icons-round">arrow_forward</span>
             </button>
         </div>
     </footer>
 
     <script>
-        function selectProfile(perfil) {
-            document.getElementById('inputObjetivo').value = perfil;
+        function selectMeta(metaName, cardId) {
+            document.getElementById('inputObjetivo').value = metaName;
 
             document.querySelectorAll('.profile-card').forEach(card => {
                 card.classList.remove('active-card');
             });
 
-            document.getElementById('card-' + perfil).classList.add('active-card');
+            document.getElementById(cardId).classList.add('active-card');
         }
     </script>
 </body>

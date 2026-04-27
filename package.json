@@ -1,0 +1,15 @@
+{
+  "name": "barracredconsultoria",
+  "version": "1.0.0",
+  "description": "Trabalho feito utilizando Net 8.0 junto do sdk mvc",
+  "main": "index.js",
+  "scripts": {
+    "tailwind:watch": "tailwindcss -i ./wwwroot/css/tailwind-input.css -o ./wwwroot/css/simulador.css --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "tailwindcss": "^4.2.4"
+  }
+}

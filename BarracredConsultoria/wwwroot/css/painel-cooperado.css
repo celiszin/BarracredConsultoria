@@ -1,0 +1,139 @@
+/* =========================================
+   1. ESTILOS BASE E LAYOUT (EXPERTS ROSTER)
+   ========================================= */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Montserrat', 'Open Sans', -apple-system, Roboto, Helvetica, sans-serif; background-color: #f8f9fa; }
+
+.experts-layout { display: flex; align-items: stretch; gap: 16px; flex-wrap: wrap; min-height: 100vh; }
+
+.aside-menu { background-color: #1a1a1a; display: flex; flex-direction: column; align-items: stretch; justify-content: start; flex-grow: 0; flex-shrink: 0; width: 280px; min-height: 100vh; position: sticky; top: 0; }
+.aside-container { display: flex; width: 100%; padding: 32px 0; flex-direction: column; align-items: stretch; justify-content: center; }
+
+/* Logo BarraCred adaptada para o menu escuro */
+.logo-aside { position: relative; display: flex; align-items: center; justify-content: center; gap: 8px; max-width: 100%; padding: 0 16px; color: white; font-size: 24px; font-weight: 800; letter-spacing: -0.5px;}
+.logo-aside-icon { width: 40px; height: 40px; background-color: #008744; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+
+.nav-wrapper { display: flex; width: 100%; padding-top: 16px; flex-direction: column; align-items: stretch; justify-content: center; flex: 1; }
+.nav-menu { display: flex; width: 100%; padding: 0 16px; flex-direction: column; align-items: stretch; justify-content: start; flex: 1; gap: 6px; }
+.nav-item { border-radius: 8px; display: flex; width: 100%; padding: 12px; align-items: center; gap: 12px; color: #9ca3af; justify-content: start; cursor: pointer; transition: all 0.2s ease; text-decoration: none; background: transparent; border: none; font-size: 16px; }
+.nav-item.active { background-color: #008744; color: white; }
+.nav-item:hover:not(.active) { background-color: rgba(255, 255, 255, 0.05); color: white; }
+.nav-icon { font-family: 'Material Icons', -apple-system, Roboto, Helvetica, sans-serif; font-size: 20px; font-weight: 400; line-height: 1.4; }
+.nav-text { font-family: 'Montserrat', -apple-system, Roboto, Helvetica, sans-serif; font-size: 15px; font-weight: 600; }
+
+.user-profile { border-top: 1px solid rgba(255, 255, 255, 0.05); display: flex; width: 100%; padding: 24px; flex-direction: column; align-items: stretch; justify-content: center; margin-top: auto; }
+.user-info { display: flex; width: 100%; align-items: center; gap: 12px; justify-content: start; }
+.user-avatar { border-radius: 9999px; background-color: rgba(0, 135, 68, 0.2); border: 1px solid rgba(255, 255, 255, 0.1); display: flex; min-width: 40px; height: 40px; width: 40px; align-items: center; justify-content: center; overflow: hidden; color: white;}
+.user-details { display: flex; flex-direction: column; justify-content: center; flex: 1; }
+.user-name { font-family: 'Montserrat', -apple-system, Roboto, Helvetica, sans-serif; font-size: 14px; color: white; font-weight: 700; line-height: 1.43; }
+.user-plan { font-size: 12px; color: #6b7280; font-weight: 400; line-height: 1.33; }
+
+.main-container { display: flex; min-height: 100vh; align-items: stretch; justify-content: start; flex-wrap: wrap; flex-grow: 1; flex-shrink: 1; }
+.content-area { background-color: #f8f9fa; display: flex; min-width: 240px; padding: 32px; flex-direction: column; overflow: hidden; align-items: stretch; flex: 1; }
+
+/* =========================================
+   2. COMPONENTES BARRACRED 
+   ========================================= */
+.bc-header { margin-bottom: 32px; }
+.bc-tag-top { display: inline-block; padding: 6px 16px; border-radius: 9999px; background-color: rgba(30, 181, 58, 0.1); color: #1EB53A; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+.bc-title { font-size: 36px; font-weight: 800; color: #004438; line-height: 1.2; }
+.bc-subtitle { color: rgba(0, 68, 56, 0.7); font-size: 16px; margin-top: 8px; font-weight: 500; }
+.bc-subtitle span { color: #008744; font-weight: 700; }
+
+.bc-alert-success { background-color: rgba(30, 181, 58, 0.2); border: 1px solid rgba(30, 181, 58, 0.3); color: #004438; padding: 16px 20px; border-radius: 12px; margin-bottom: 32px; display: flex; align-items: center; gap: 12px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+
+.bc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 32px; margin-bottom: 32px; }
+
+.bc-card { background: white; border-radius: 16px; padding: 32px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05); border: 1px solid #E2E8E4; display: flex; flex-direction: column; transition: box-shadow 0.3s ease; }
+.bc-card:hover { box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04); }
+.bc-card-highlight { border-top: 4px solid #008744; }
+
+.bc-card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+.bc-icon-box { width: 48px; height: 48px; background: rgba(30, 181, 58, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #1EB53A; font-size: 24px; }
+.bc-card-title { font-size: 24px; font-weight: 800; color: #004438; }
+.bc-hr { border: none; border-top: 1px solid #E2E8E4; margin-bottom: 24px; }
+
+.bc-status-text { font-size: 36px; font-weight: 800; margin-bottom: 32px; }
+
+.bc-list { display: flex; flex-direction: column; gap: 20px; margin-top: auto; list-style: none;}
+.bc-list-item { display: flex; justify-content: space-between; align-items: center; padding-bottom: 16px; border-bottom: 1px solid #E2E8E4; }
+.bc-list-item:last-child { border-bottom: none; padding-bottom: 0; padding-top: 8px; }
+.bc-list-label { font-size: 14px; font-weight: 600; color: rgba(0, 68, 56, 0.7); }
+.bc-list-value { font-size: 18px; font-weight: 700; color: #004438; }
+.bc-tag { background: rgba(30, 181, 58, 0.2); color: #004438; padding: 6px 16px; border-radius: 9999px; font-size: 12px; font-weight: 700; border: 1px solid rgba(30, 181, 58, 0.3); }
+
+/* Agendamento Box */
+.bc-agenda-box { display: flex; align-items: center; background: #F8FAF9; padding: 20px; border-radius: 12px; border: 1px solid #E2E8E4; margin-bottom: 32px; }
+.bc-agenda-date { background: #004438; color: white; padding: 12px; border-radius: 8px; text-align: center; margin-right: 20px; min-width: 75px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+.bc-agenda-day { font-size: 24px; font-weight: 800; line-height: 1; display: block;}
+.bc-agenda-month { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; display: block;}
+.bc-agenda-title { font-weight: 700; color: #004438; margin-bottom: 4px; display: block;}
+.bc-agenda-status { display: inline-block; background: rgba(30, 181, 58, 0.2); color: #004438; padding: 4px 10px; border-radius: 4px; font-size: 12px; font-weight: 700; }
+
+.bc-form { margin-top: auto; display: flex; flex-direction: column; gap: 20px; }
+.bc-input-group { position: relative; }
+.bc-label { display: block; font-size: 14px; font-weight: 700; color: #004438; margin-bottom: 8px; margin-left: 4px;}
+.bc-input { width: 100%; background: #F8FAF9; border: 1px solid #E2E8E4; padding: 14px 14px 14px 44px; border-radius: 8px; font-family: inherit; font-size: 16px; color: #004438; outline: none; transition: box-shadow 0.2s; }
+.bc-input:focus { box-shadow: 0 0 0 2px #008744; }
+.bc-input-icon { position: absolute; left: 12px; top: 38px; color: rgba(0, 68, 56, 0.5); }
+
+.bc-btn { width: 100%; background: #008744; color: white; border: none; padding: 16px; border-radius: 8px; font-weight: 700; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s; box-shadow: 0 10px 15px -3px rgba(0, 135, 68, 0.2); }
+.bc-btn:hover { background: #007038; transform: translateY(-2px); }
+
+/* Toolbar Superior Pesquisa */
+.bc-iframe-toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; flex-wrap: wrap; gap: 16px;}
+.bc-iframe-titles { display: flex; align-items: center; gap: 12px; }
+.bc-iframe-subtitle { font-size: 14px; color: rgba(0, 68, 56, 0.6); font-weight: 500; }
+.bc-btn-secondary { background: #004438; color: white; border: none; padding: 8px 16px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: background 0.2s; }
+.bc-btn-secondary:hover { background: #008744; }
+.bc-iframe-container { width: 100%; overflow: hidden; border-radius: 12px; border: 1px solid #E2E8E4; background: #F8FAF9; }
+
+/* =========================================
+   3. ESTILOS ORIGINAIS (CALENDÁRIO EXPERTS)
+   ========================================= */
+.experts-sidebar { background-color: #ffffff; align-self: start; display: flex; min-width: 240px; flex-direction: column; align-items: stretch; justify-content: start; width: 304px; border-right: 1px solid #e5e7eb; min-height: 100vh;}
+.experts-header { display: flex; width: 100%; padding: 24px; flex-direction: column; align-items: stretch; justify-content: start; border-bottom: 1px solid #e5e7eb; }
+.header-row { display: flex; width: 100%; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+.header-title { font-family: 'Montserrat', sans-serif; font-size: 16px; color: #111827; font-weight: 700; }
+.realtime-badge { border-radius: 9999px; background-color: rgba(0, 135, 68, 0.1); padding: 2px 8px; font-size: 10px; color: #008744; text-transform: uppercase; font-weight: 700;}
+.search-wrapper { position: relative; display: flex; width: 100%; flex-direction: column; }
+.search-input { border-radius: 8px; background-color: #f9fafb; border: 1px solid #e5e7eb; width: 100%; padding: 9px 16px 9px 36px; font-size: 12px; color: #6b7280; outline: none; }
+.search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #9ca3af; }
+
+.consultants-list { display: flex; width: 100%; padding: 16px; flex-direction: column; overflow-y: auto; flex: 1; gap: 8px; }
+.consultant-item { border-radius: 12px; background-color: #f9fafb; border: 1px solid transparent; display: flex; padding: 12px; align-items: center; gap: 12px; cursor: pointer; transition: all 0.2s; }
+.consultant-item.active { background-color: rgba(0, 135, 68, 0.05); border-color: rgba(0, 135, 68, 0.2); }
+.consultant-avatar img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+.consultant-name { font-size: 14px; color: #111827; font-weight: 700; }
+.consultant-specialty { font-size: 11px; color: #6b7280; }
+.status-badge { font-size: 9px; font-weight: 700; text-transform: uppercase; }
+.status-badge.available { color: #008744; }
+.status-badge.busy { color: #f97316; }
+
+.toolbar { border-radius: 12px; background-color: white; box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05); border: 1px solid #e5e7eb; display: flex; margin-top: 32px; padding: 16px; align-items: center; gap: 20px; justify-content: space-between; flex-wrap: wrap; }
+.filters { display: flex; align-items: center; gap: 12px; }
+.filter-select { border-radius: 8px; background-color: #f9fafb; border: 1px solid #e5e7eb; display: flex; align-items: center; gap: 8px; padding: 8px 12px; cursor: pointer; }
+.filter-label { font-size: 10px; font-weight: 700; text-transform: uppercase; color: #9ca3af; }
+.filter-value { font-size: 14px; font-weight: 500; color: #111827; }
+
+.calendar-container { border-radius: 16px; background-color: white; box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05); border: 1px solid #e5e7eb; display: flex; margin-top: 24px; flex-direction: column; overflow-x: auto; }
+.calendar-header { background-color: #f9fafb; display: flex; width: 100%; border-bottom: 1px solid #e5e7eb; }
+.calendar-header-cell { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 236px; padding: 12px 5px; text-align: center; border-right: 1px solid #e5e7eb; }
+.calendar-header-cell:first-child { width: 80px; }
+.calendar-header-day { font-size: 12px; font-weight: 700; color: #111827; }
+.calendar-header-date { font-size: 10px; color: #6b7280; }
+.calendar-row { display: flex; border-bottom: 1px solid #e5e7eb; }
+.time-cell { width: 80px; padding: 12px 8px; font-size: 11px; color: #6b7280; text-align: center; border-right: 1px solid #e5e7eb; background-color: #fafafa; }
+.appointment-cell { width: 236px; padding: 8px; border-right: 1px solid #e5e7eb; min-height: 60px; }
+.appointment-card { border-radius: 8px; padding: 8px; font-size: 10px; cursor: pointer; transition: transform 0.2s; }
+.appointment-card:hover { transform: translateY(-2px); }
+.appointment-card.green { background-color: rgba(0, 135, 68, 0.1); border-left: 3px solid #008744; }
+.appointment-title { font-weight: 700; margin-bottom: 4px; font-size: 11px; }
+
+/* MEDIA QUERY CORRIGIDA */
+@media (max-width: 1024px) {
+  .aside-menu { width: 100%; min-height: auto; position: relative; }
+  .experts-sidebar { width: 100%; min-height: auto; }
+  .content-area { padding: 16px; }
+  .calendar-header-cell, .appointment-cell { width: 180px; }
+}

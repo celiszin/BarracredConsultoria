@@ -1,232 +1,243 @@
 ﻿@model BarracredConsultoria.ViewModels.ConsultoriaViewModel
 
 @{
-    ViewData["Title"] = "Seu Portal de Consultoria";
+    ViewData["Title"] = "BarraCred - Portal de Consultoria e Experts";
     Layout = null; 
 
     bool temDividas = Model.CondicaoFinanceira.TotalDividas > 0;
-    string corStatus = temDividas ? "text-red-500" : "text-medium-green";
+    string corStatus = temDividas ? "color: #ef4444;" : "color: #008744;";
 }
 
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>BarraCred | @ViewData["Title"]</title>
-    
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
-    
-    <script id="tailwind-config">
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        "dark-green": "#004438", 
-                        "medium-green": "#008744", 
-                        "light-green": "#1EB53A", 
-                        "surface-light": "#F8FAF9", 
-                        "light-divider": "#E2E8E4",
-                    },
-                    fontFamily: {
-                        "display": ["Montserrat", "sans-serif"],
-                        "sans": ["Montserrat", "sans-serif"]
-                    }
-                },
-            },
-        }
-    </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>@ViewData["Title"]</title>
+  
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/@@tabler/icons-webfont@@latest/dist/tabler-icons.min.css" rel="stylesheet">
+  
+  <link rel="stylesheet" href="~/css/painel-cooperado.css" asp-append-version="true" />
 </head>
+<body>
 
-<body class="bg-surface-light text-dark-green min-h-screen flex flex-col">
+  <div class="experts-layout">
     
-    <nav class="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-md border-b border-light-divider">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20">
-                <div class="flex items-center gap-2">
-                    <div class="w-10 h-10 bg-medium-green rounded flex items-center justify-center">
-                        <span class="material-icons-round text-white">account_balance</span>
-                    </div>
-                    <span class="text-2xl font-extrabold tracking-tight text-dark-green">Barra<span class="text-medium-green">Cred</span></span>
-                </div>
-                
-                <div class="hidden md:flex items-center space-x-10">
-                    <a class="text-sm font-semibold text-dark-green hover:text-light-green transition-colors" asp-controller="Home" asp-action="Index">Início</a>
-                    <a class="text-sm font-semibold text-dark-green hover:text-light-green transition-colors" asp-controller="Servicos" asp-action="Index">Meus Serviços</a>
-                    <a class="text-sm font-semibold text-dark-green hover:text-light-green transition-colors" asp-controller="Home" asp-action="Teste">Educação</a>
-                    <a class="text-sm font-semibold text-dark-green hover:text-light-green transition-colors" asp-controller="Home" asp-action="Simulador">Simuladores</a>
-                </div>
-                
-                <div class="flex items-center gap-4">
-                    <a asp-controller="Account" asp-action="Login" class="px-6 py-2.5 bg-medium-green hover:bg-[#007038] text-white text-sm font-bold rounded transition-all flex items-center gap-2 shadow-lg shadow-medium-green/20">
-                        <span class="material-icons-round text-sm">person</span>
-                        Meu Perfil
-                    </a>
-                </div>
-            </div>
+    <aside class="aside-menu">
+      <div class="aside-container">
+        <div class="logo-aside">
+          <div class="logo-aside-icon">
+             <span class="material-icons-round text-white">account_balance</span>
+          </div>
+          <span>Barra<span style="color: #008744">Cred</span></span>
         </div>
-    </nav>
 
-    <main class="flex-grow relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-20">
+        <div class="nav-wrapper">
+          <nav class="nav-menu">
+            <a class="nav-item active" asp-controller="Home" asp-action="Index">
+              <span class="nav-icon">dashboard</span>
+              <span class="nav-text">Painel do Cooperado</span>
+            </a>
+            <a class="nav-item" asp-controller="Servicos" asp-action="Index">
+              <span class="nav-icon">insights</span>
+              <span class="nav-text">Meus Serviços</span>
+            </a>
+           <a class="nav-item" asp-controller="Home" asp-action="Sonhos">
+             <span class="nav-icon">star</span>
+            <span class="nav-text">Sonhos e Metas</span>
+            </a>
+            <a class="nav-item" asp-controller="Home" asp-action="Simulador">
+              <span class="nav-icon">calculate</span>
+             <span class="nav-text">Simuladores</span>
+            </a>
+            <a class="nav-item" href="#">
+              <span class="nav-icon">support_agent</span>
+              <span class="nav-text">Experts Roster</span>
+            </a>
+          </nav>
+        </div>
+      </div>
+      
+      <div class="user-profile">
+        <div class="user-info">
+          <div class="user-avatar">
+            <span class="material-icons-round">person</span>
+          </div>
+          <div class="user-details">
+            <div class="user-name">@Model.Usuario.Nome</div>
+            <div class="user-plan">Cooperado BarraCred</div>
+          </div>
+        </div>
         
-        <div class="mb-10">
-            <span class="inline-block py-1.5 px-4 rounded-full bg-light-green/10 text-light-green text-xs font-bold uppercase tracking-widest mb-3">
-                Clínica Financeira Premium
-            </span>
-            <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight text-dark-green">Painel do Cooperado</h2>
-            <p class="text-dark-green/70 mt-2 font-medium">Análise atualizada em: <span class="text-medium-green font-bold">@Model.Usuario.DataAnalise.ToString("dd/MM/yyyy")</span></p>
+        <form asp-controller="Account" asp-action="Logout" method="post" style="margin-top: 16px; width: 100%;">
+          <button type="submit" class="nav-item" style="color: #ef4444; width: 100%; padding: 8px 12px;">
+            <span class="nav-icon">logout</span>
+            <span class="nav-text">Sair da Conta</span>
+          </button>
+        </form>
+
+      </div>
+    </aside>
+
+    <div class="experts-sidebar">
+      <div class="experts-header">
+        <div class="header-row">
+          <span class="header-title">Experts Disponíveis</span>
+          <span class="realtime-badge">Real-time</span>
+        </div>
+        <div class="search-wrapper">
+          <i class="ti ti-search search-icon"></i>
+          <input type="text" class="search-input" id="searchInput" placeholder="Filtrar consultores...">
+        </div>
+      </div>
+
+      <div class="consultants-list" id="consultantsList">
+        <div class="consultant-item active" data-expert="Adilson Nascimento">
+          <div class="consultant-avatar"><img src="//scontent-atl3-3.cdninstagram.com/v/t51.82787-19/559168273_18294070000252713_1285691012925670037_n.jpg?stp=dst-jpg_s150x150_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby4xMDgwLmMyIn0&_nc_ht=scontent-atl3-3.cdninstagram.com&_nc_cat=109&_nc_oc=Q6cZ2gGHIK21IAQo2IdQMdQaYfIeFTdj_GVI65C0orhgCs97jIL46eSmj4G1hzJ552HVqFk&_nc_ohc=epffklorWSsQ7kNvwF1AJzn&_nc_gid=7MN-7E5OAYkmnb614jMiDg&edm=AP4sbd4BAAAA&ccb=7-5&oh=00_Af0hhCXyJOwrVExo_6pRyD-5xWRvKi43lIkMSpkv63Oq0w&oe=69F16E24&_nc_sid=7a9f4bplaceholderIfAbsent=true" alt="Consultor"></div>
+          <div class="consultant-info">
+            <div class="consultant-name">Adilson Nascimento</div>
+            <div class="consultant-specialty">Gestão de Patrimônio</div>
+          </div>
+          <div class="status-badge available">● Disponível</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="content-area">
+      
+      <div class="bc-header">
+        <span class="bc-tag-top">Clínica Financeira Premium</span>
+        <h2 class="bc-title">Painel do Cooperado</h2>
+        <p class="bc-subtitle">Análise atualizada em: <span>@Model.Usuario.DataAnalise.ToString("dd/MM/yyyy")</span></p>
+      </div>
+
+      @if (TempData["MensagemSucesso"] != null)
+      {
+        <div class="bc-alert-success">
+          <span class="material-symbols-outlined">check_circle</span>
+          <span><strong>Sucesso!</strong> @TempData["MensagemSucesso"]</span>
+        </div>
+      }
+
+      <div class="bc-grid">
+        
+        <div class="bc-card bc-card-highlight">
+          <div class="bc-card-header">
+            <div class="bc-icon-box"><span class="material-symbols-outlined">trending_up</span></div>
+            <h4 class="bc-card-title">Seu Momento Financeiro</h4>
+          </div>
+          <hr class="bc-hr" />
+          
+          <p class="bc-status-text" style="@corStatus">@Model.CondicaoFinanceira.StatusAtual</p>
+          
+          <ul class="bc-list">
+            <li class="bc-list-item">
+              <span class="bc-list-label">Renda Mensal:</span>
+              <strong class="bc-list-value">@Model.CondicaoFinanceira.RendaMensal.ToString("C")</strong>
+            </li>
+            <li class="bc-list-item">
+              <span class="bc-list-label">Dívidas Totais:</span>
+              <strong class="bc-list-value" style="@corStatus">@Model.CondicaoFinanceira.TotalDividas.ToString("C")</strong>
+            </li>
+            <li class="bc-list-item">
+              <span class="bc-list-label">Seu Maior Objetivo:</span>
+              <span class="bc-tag">@Model.Usuario.Objetivo</span>
+            </li>
+          </ul>
         </div>
 
-        @if (TempData["MensagemSucesso"] != null)
-        {
-            <div class="bg-light-green/20 border border-light-green/30 text-dark-green px-5 py-4 rounded-xl mb-8 shadow-sm flex items-center gap-3">
-                <span class="material-symbols-outlined text-light-green">check_circle</span>
-                <span><strong>Sucesso!</strong> @TempData["MensagemSucesso"]</span>
+        <div class="bc-card">
+          <div class="bc-card-header">
+            <div class="bc-icon-box"><span class="material-symbols-outlined">forum</span></div>
+            <h4 class="bc-card-title">Consultoria Especializada</h4>
+          </div>
+          <hr class="bc-hr" />
+          
+          @if (Model.Agendamento != null)
+          {
+            <div class="bc-agenda-box">
+              <div class="bc-agenda-date">
+                <span class="bc-agenda-day">@Model.Agendamento.DataHora.ToString("dd")</span>
+                <span class="bc-agenda-month">@Model.Agendamento.DataHora.ToString("MMM")</span>
+              </div>
+              <div>
+                <span class="bc-agenda-title">Consulta às @Model.Agendamento.DataHora.ToString("HH:mm")</span>
+                <span class="bc-agenda-status">Status: @Model.Agendamento.Status</span>
+              </div>
             </div>
-        }
+          }
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <form asp-controller="Home" asp-action="SalvarAgendamento" method="post" class="bc-form">
+            <input type="hidden" name="agendamentoId" value="@(Model.Agendamento != null ? Model.Agendamento.Id : 0)" />
             
-            <div class="bg-white p-8 rounded-2xl shadow-lg border-t-4 border-t-medium-green border border-light-divider flex flex-col hover:shadow-xl transition-shadow">
-                <div class="flex items-center gap-3 mb-6">
-                    <div class="w-12 h-12 bg-light-green/10 rounded-xl flex items-center justify-center">
-                        <span class="material-symbols-outlined text-light-green text-2xl">trending_up</span>
-                    </div>
-                    <h4 class="text-2xl font-extrabold text-dark-green">Seu Momento Financeiro</h4>
-                </div>
-                <hr class="border-light-divider mb-6" />
-                
-                <p class="text-4xl font-extrabold @corStatus mb-8">@Model.CondicaoFinanceira.StatusAtual</p>
-                
-                <ul class="space-y-5 mt-auto">
-                    <li class="flex justify-between items-center pb-4 border-b border-light-divider">
-                        <span class="text-sm font-semibold text-dark-green/70">Renda Mensal:</span>
-                        <strong class="text-dark-green text-lg">@Model.CondicaoFinanceira.RendaMensal.ToString("C")</strong>
-                    </li>
-                    <li class="flex justify-between items-center pb-4 border-b border-light-divider">
-                        <span class="text-sm font-semibold text-dark-green/70">Dívidas Totais:</span>
-                        <strong class="text-lg @corStatus">@Model.CondicaoFinanceira.TotalDividas.ToString("C")</strong>
-                    </li>
-                    <li class="flex justify-between items-center pt-2">
-                        <span class="text-sm font-semibold text-dark-green/70">Seu Maior Objetivo:</span>
-                        <span class="bg-light-green/20 text-dark-green px-4 py-1.5 rounded-full text-xs font-bold border border-light-green/30">@Model.Usuario.Objetivo</span>
-                    </li>
-                </ul>
+            <div class="bc-input-group">
+              <label for="dataEscolhida" class="bc-label">
+                @(Model.Agendamento != null ? "Remarcar Horário:" : "Agendar Novo Horário:")
+              </label>
+              <span class="material-symbols-outlined bc-input-icon">calendar_month</span>
+              <input type="datetime-local" id="dataEscolhida" name="dataEscolhida" required class="bc-input" />
             </div>
-
-            <div class="bg-white p-8 rounded-2xl shadow-lg border border-light-divider flex flex-col hover:shadow-xl transition-shadow">
-                <div class="flex items-center gap-3 mb-6">
-                    <div class="w-12 h-12 bg-light-green/10 rounded-xl flex items-center justify-center">
-                        <span class="material-symbols-outlined text-light-green text-2xl">forum</span>
-                    </div>
-                    <h4 class="text-2xl font-extrabold text-dark-green">Consultoria Especializada</h4>
-                </div>
-                <hr class="border-light-divider mb-6" />
-                
-                @if (Model.Agendamento != null)
-                {
-                    <div class="flex items-center mb-8 bg-surface-light p-5 rounded-xl border border-light-divider">
-                        <div class="bg-dark-green text-white p-3 rounded-lg text-center mr-5 min-w-[75px] shadow-md">
-                            <span class="block font-extrabold text-2xl leading-none">@Model.Agendamento.DataHora.ToString("dd")</span>
-                            <span class="block text-[10px] uppercase tracking-widest mt-1 font-bold">@Model.Agendamento.DataHora.ToString("MMM")</span>
-                        </div>
-                        <div>
-                            <h6 class="font-bold text-dark-green mb-1">Consulta às @Model.Agendamento.DataHora.ToString("HH:mm")</h6>
-                            <span class="inline-block bg-light-green/20 text-dark-green px-2.5 py-1 rounded text-xs font-bold">Status: @Model.Agendamento.Status</span>
-                        </div>
-                    </div>
-                }
-
-                <form asp-controller="Home" asp-action="SalvarAgendamento" method="post" class="mt-auto space-y-5">
-                    <input type="hidden" name="agendamentoId" value="@(Model.Agendamento != null ? Model.Agendamento.Id : 0)" />
-                    <div class="space-y-2">
-                        <label for="dataEscolhida" class="text-sm font-bold text-dark-green ml-1">
-                            @(Model.Agendamento != null ? "Remarcar Horário:" : "Agendar Novo Horário:")
-                        </label>
-                        <div class="relative">
-                            <span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-dark-green/50 text-xl">calendar_month</span>
-                            <input type="datetime-local" id="dataEscolhida" name="dataEscolhida" required 
-                                   class="w-full bg-surface-light border border-light-divider text-dark-green font-medium rounded-lg py-3.5 pl-11 pr-4 focus:ring-2 focus:ring-medium-green outline-none transition-all shadow-sm" />
-                        </div>
-                    </div>
-                    <button type="submit" class="w-full bg-medium-green hover:bg-[#007038] text-white font-bold py-4 rounded-lg transition-all transform hover:-translate-y-0.5 shadow-lg shadow-medium-green/20 flex justify-center items-center gap-2">
-                        <span class="material-symbols-outlined text-xl">event_available</span>
-                        Confirmar Agendamento
-                    </button>
-                </form>
-            </div>
-
-            <div class="lg:col-span-2 bg-white p-8 md:p-10 rounded-2xl shadow-lg border border-light-divider mt-2">
-                <div class="flex items-center justify-between mb-8">
-                    <div class="flex items-center gap-3">
-                        <div class="w-12 h-12 bg-light-green/10 rounded-xl flex items-center justify-center">
-                            <span class="material-symbols-outlined text-light-green text-2xl" id="form-icon">assignment</span>
-                        </div>
-                        <div>
-                            <h4 class="text-2xl font-extrabold text-dark-green" id="form-title">Pesquisa de Satisfação</h4>
-                            <p class="text-sm text-dark-green/60 font-medium" id="form-subtitle">Sua opinião é fundamental para nós.</p>
-                        </div>
-                    </div>
-                    
-                    <button onclick="marcarComoRespondido()" id="btn-concluir" class="bg-dark-green text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-medium-green transition-colors flex items-center gap-2">
-                        <span class="material-symbols-outlined text-sm">done_all</span>
-                        Já respondi
-                    </button>
-                </div>
-                
-                <div class="w-full overflow-hidden rounded-xl border border-light-divider bg-surface-light" id="form-container">
-                    <iframe id="iframe-satisfacao" src="https://beforms.becompliance.com/67bca1d1f0eede0009c7b3b3" width="100%" height="600" frameborder="0" class="w-full"></iframe>
-                    <iframe id="iframe-final" allowtransparency="true" src="https://2fjnw12b.forms.app/form/69a02b5db668063afa589b63" frameborder="0" style="width: 100%; height:80vh; border:none; display:none;"></iframe>
-                </div>
-            </div>
+            
+            <button type="submit" class="bc-btn">
+              <span class="material-symbols-outlined">event_available</span>
+              Confirmar Agendamento
+            </button>
+          </form>
         </div>
-    </main>
 
-    <footer class="bg-white border-t border-light-divider pt-16 pb-10">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid md:grid-cols-4 gap-12 mb-12">
-                <div class="col-span-2">
-                    <div class="flex items-center gap-2 mb-6">
-                        <div class="w-9 h-9 bg-medium-green rounded flex items-center justify-center shadow-sm">
-                            <span class="material-icons-round text-white text-lg">account_balance</span>
-                        </div>
-                        <span class="text-2xl font-extrabold tracking-tight text-dark-green">Barra<span class="text-medium-green">Cred</span></span>
-                    </div>
-                    <p class="text-dark-green/70 max-w-sm leading-relaxed font-medium">Sua parceira em saúde financeira. Comprometidos com a transparência e o desenvolvimento do cooperado.</p>
-                </div>
-                <div>
-                    <h5 class="text-dark-green font-extrabold mb-6">Links Rápidos</h5>
-                    <ul class="space-y-3">
-                        <li><a class="text-dark-green/70 hover:text-medium-green transition-colors font-medium" asp-controller="Home" asp-action="Simulador">Simuladores</a></li>
-                        <li><a class="text-dark-green/70 hover:text-medium-green transition-colors font-medium" asp-controller="Home" asp-action="Teste">Educação Financeira</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h5 class="text-dark-green font-extrabold mb-6">Contato</h5>
-                    <ul class="space-y-3">
-                        <li class="flex items-center gap-3 text-dark-green/70 font-medium"><span class="material-icons-round text-light-green text-sm">phone</span> 0800 123 4567</li>
-                        <li class="flex items-center gap-3 text-dark-green/70 font-medium"><span class="material-icons-round text-light-green text-sm">email</span> barracred@barracred.com.br</li>
-                    </ul>
-                </div>
+      </div>
+
+      <div class="bc-card" style="margin-bottom: 32px;">
+        <div class="bc-iframe-toolbar">
+          <div class="bc-iframe-titles">
+            <div class="bc-icon-box"><span class="material-symbols-outlined" id="form-icon">assignment</span></div>
+            <div>
+              <h4 class="bc-card-title" id="form-title">Pesquisa de Satisfação</h4>
+              <p class="bc-iframe-subtitle" id="form-subtitle">Sua opinião é fundamental para nós.</p>
             </div>
+          </div>
+          <button onclick="marcarComoRespondido()" id="btn-concluir" class="bc-btn-secondary">
+            <span class="material-symbols-outlined">done_all</span> Já respondi
+          </button>
         </div>
-    </footer>
+        
+        <div class="bc-iframe-container" id="form-container">
+          <iframe id="iframe-satisfacao" src="https://beforms.becompliance.com/67bca1d1f0eede0009c7b3b3" width="100%" height="600" frameborder="0"></iframe>
+          <iframe id="iframe-final" allowtransparency="true" src="https://2fjnw12b.forms.app/form/69a02b5db668063afa589b63" frameborder="0" style="width: 100%; height:80vh; border:none; display:none;"></iframe>
+        </div>
+      </div>
 
-    <script>
-        window.onload = function() { if (localStorage.getItem("formSatisfacaoRespondido") === "true") exibirFormularioFinal(); };
-        function marcarComoRespondido() { localStorage.setItem("formSatisfacaoRespondido", "true"); exibirFormularioFinal(); document.getElementById('form-title').scrollIntoView({ behavior: 'smooth' }); }
-        function exibirFormularioFinal() {
-            document.getElementById('form-title').innerText = "Formulário de Consultoria";
-            document.getElementById('form-subtitle').innerText = "Continue preenchendo as informações abaixo.";
-            document.getElementById('form-icon').innerText = "description";
-            document.getElementById('btn-concluir').style.display = "none";
-            document.getElementById('iframe-satisfacao').style.display = "none";
-            document.getElementById('iframe-final').style.display = "block";
-        }
-    </script>
+      <div class="toolbar">
+        <div class="filters">
+          <div class="filter-select" id="specialtyFilter">
+            <span class="filter-label">Especialidade</span>
+            <span class="filter-value" id="selectedSpecialty">Todas Especialidades</span>
+            <i class="ti ti-chevron-down" style="font-size: 16px; color: #6b7280;"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="calendar-container">
+        <div class="calendar-header">
+          <div class="calendar-header-cell"><span class="calendar-header-day">Horário</span></div>
+          <div class="calendar-header-cell"><span class="calendar-header-day">Segunda</span></div>
+          <div class="calendar-header-cell"><span class="calendar-header-day">Terça</span></div>
+          <div class="calendar-header-cell"><span class="calendar-header-day">Quarta</span></div>
+          <div class="calendar-header-cell"><span class="calendar-header-day">Quinta</span></div>
+          <div class="calendar-header-cell"><span class="calendar-header-day">Sexta</span></div>
+        </div>
+        <div class="calendar-body">
+          <div class="calendar-row"><div class="time-cell">09:00 AM</div><div class="appointment-cell"><div class="appointment-card green"><div class="appointment-title">Reunião: Adilson Nascimento</div></div></div><div class="appointment-cell"></div><div class="appointment-cell"></div><div class="appointment-cell"></div><div class="appointment-cell"></div></div>
+          <div class="calendar-row"><div class="time-cell">10:00 AM</div><div class="appointment-cell"></div><div class="appointment-cell"></div><div class="appointment-cell"></div><div class="appointment-cell"></div><div class="appointment-cell"></div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="~/js/painel-cooperado.js" asp-append-version="true"></script>
 </body>
 </html>

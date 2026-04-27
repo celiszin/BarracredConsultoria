@@ -8,7 +8,6 @@ public class AppDbContext : IdentityDbContext<Usuario>
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-    public DbSet<CondicaoFinanceira> CondicoesFinanceiras { get; set; }
     public DbSet<AgendamentoConsulta> Agendamentos { get; set; }
     public DbSet<Trilha> Trilhas { get; set; }
     public DbSet<Aula> Aulas { get; set; }

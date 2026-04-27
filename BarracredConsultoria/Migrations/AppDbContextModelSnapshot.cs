@@ -74,26 +74,6 @@ namespace BarracredConsultoria.Migrations
                     b.ToTable("Aulas");
                 });
 
-            modelBuilder.Entity("BarracredConsultoria.Models.CondicaoFinanceira", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("RendaMensal")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("StatusAtual")
-                        .HasColumnType("longtext");
-
-                    b.Property<decimal>("TotalDividas")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CondicoesFinanceiras");
-                });
-
             modelBuilder.Entity("BarracredConsultoria.Models.Trilha", b =>
                 {
                     b.Property<int>("Id")

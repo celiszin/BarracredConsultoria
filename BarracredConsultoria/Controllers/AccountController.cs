@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using BarracredConsultoria.Models;
-using BarracredConsultoria.Data;
-using BarracredConsultoria.ViewModels; // Certifique-se de ter as ViewModels aqui
+using BarracredConsultoria.ViewModels;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using System;
@@ -30,51 +29,51 @@ namespace BarracredConsultoria.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(AcessoSessaoViewModel model)
+        public async Task<IActionResult> Login([Bind(Prefix = "Login")] LoginViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(
-                    model.Login.Email, 
-                    model.Login.Senha, 
-                    model.Login.Lembrar, 
-                    lockoutOnFailure: false);
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                string userName = user != null ? user.UserName : model.Email;
+
+                var result = await _signInManager.PasswordSignInAsync(userName, model.Senha, model.Lembrar, false);
 
                 if (result.Succeeded)
                 {
+                    if (!string.IsNullOrEmpty(model.UrlRetorno) && Url.IsLocalUrl(model.UrlRetorno))
+                    {
+                        return Redirect(model.UrlRetorno);
+                    }
                     return RedirectToAction("Index", "Home");
                 }
                 
                 ViewBag.Error = "Usuário ou senha inválidos.";
             }
 
-            return View(model);
+            return View(new AcessoSessaoViewModel { Login = model });
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Cadastro(AcessoSessaoViewModel model)
+        public async Task<IActionResult> Cadastro([Bind(Prefix = "Registro")] RegistroViewModel model)
         {
             if (ModelState.IsValid)
             {
                 var usuario = new Usuario
                 {
-                    UserName = model.Registro.Email, 
-                    Email = model.Registro.Email,
-                    Nome = model.Registro.Nome,
-                    DataNascimento = model.Registro.DataNascimento,
+                    UserName = model.Email, 
+                    Email = model.Email,
+                    Nome = model.Nome,
+                    DataNascimento = model.DataNascimento,
                     DataAnalise = DateTime.Now
                 };
 
-                var result = await _userManager.CreateAsync(usuario, model.Registro.Senha);
+                var result = await _userManager.CreateAsync(usuario, model.Senha);
 
                 if (result.Succeeded)
                 {
-                    await _userManager.AddToRoleAsync(usuario, "Cooperado");
-                    
-                    await _signInManager.SignInAsync(usuario, isPersistent: false);
-
-                    return RedirectToAction("Teste", "Home", new { id = usuario.Id });
+                    TempData["MensagemSucesso"] = "Conta criada com sucesso! Faça login abaixo.";
+                    return RedirectToAction("Login");
                 }
 
                 foreach (var error in result.Errors)
@@ -83,7 +82,24 @@ namespace BarracredConsultoria.Controllers
                 }
             }
             
-            return View("Login", model);
+            ViewBag.ShowRegister = true;
+            return View("Login", new AcessoSessaoViewModel { Registro = model });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EsqueciSenha([Bind(Prefix = "EsqueciSenha")] EsqueciSenhaViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                // A lógica de envio de e-mail entra aqui no futuro
+                TempData["MensagemSucesso"] = "Se o e-mail estiver cadastrado, você receberá as instruções em breve.";
+                return RedirectToAction("Login");
+            }
+
+            ViewBag.ShowForgot = true;
+            return View("Login", new AcessoSessaoViewModel { EsqueciSenha = model });
         }
 
         [HttpPost]

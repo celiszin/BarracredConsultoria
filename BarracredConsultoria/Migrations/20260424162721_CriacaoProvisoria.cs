@@ -64,22 +64,6 @@ namespace BarracredConsultoria.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "CondicoesFinanceiras",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    StatusAtual = table.Column<string>(type: "longtext", nullable: true),
-                    RendaMensal = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    TotalDividas = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CondicoesFinanceiras", x => x.Id);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
-
-            migrationBuilder.CreateTable(
                 name: "Trilhas",
                 columns: table => new
                 {
@@ -324,9 +308,6 @@ namespace BarracredConsultoria.Migrations
 
             migrationBuilder.DropTable(
                 name: "Aulas");
-
-            migrationBuilder.DropTable(
-                name: "CondicoesFinanceiras");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

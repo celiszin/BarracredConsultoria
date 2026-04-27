@@ -1,11 +1,12 @@
-using System;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using BarracredConsultoria.Data;
 using BarracredConsultoria.Models;
 using BarracredConsultoria.ViewModels;
-using BarracredConsultoria.Data;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
+using System;
+using System.Linq;
 
 namespace BarracredConsultoria.Controllers
 {
@@ -22,108 +23,108 @@ namespace BarracredConsultoria.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var viewModel = await ObterViewModelMista();
-            return View(viewModel);
-        }
+            var usuario = await _userManager.GetUserAsync(User);
 
-        public async Task<IActionResult> Simulador()
-        {
-            var viewModel = await ObterViewModelMista();
-            return View(viewModel);
-        }
+            if (usuario == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
 
-        public async Task<IActionResult> Teste()
-        {
-            var mista = await ObterViewModelMista();
-            return View(mista.Usuario);
+            var agendamento = await _context.Agendamentos
+                .FirstOrDefaultAsync(a => a.UsuarioId == usuario.Id && a.DataHora >= DateTime.Now);
+
+            var condicao = new CondicaoFinanceira
+            {
+                RendaMensal = usuario.RendaMensal,
+                TotalDividas = usuario.TotalDividas,
+                StatusAtual = usuario.TotalDividas > (usuario.RendaMensal * 3) ? "Alerta" : "Saudável"
+            };
+
+            var viewModel = new ConsultoriaViewModel
+            {
+                Usuario = usuario,
+                CondicaoFinanceira = condicao,
+                Agendamento = agendamento
+            };
+
+            return View(viewModel);
         }
 
         [HttpPost]
         public async Task<IActionResult> SalvarAgendamento(int agendamentoId, DateTime dataEscolhida)
         {
-            string userIdSimulado = "1";
+            var usuario = await _userManager.GetUserAsync(User);
+            if (usuario == null) return RedirectToAction("Login", "Account");
 
-            var agendamento = await _context.Agendamentos.FindAsync(agendamentoId)
-                              ?? await _context.Agendamentos.FirstOrDefaultAsync(a => a.UsuarioId == userIdSimulado);
-
-            if (agendamento == null)
+            if (agendamentoId > 0)
             {
-                agendamento = new AgendamentoConsulta
+                var agendamento = await _context.Agendamentos.FindAsync(agendamentoId);
+                if (agendamento != null && agendamento.UsuarioId == usuario.Id)
                 {
-                    UsuarioId = userIdSimulado,
-                    DataHora = dataEscolhida,
-                    Status = "Confirmado",
-                    Observacoes = "Agendamento criado pelo portal."
-                };
-
-                _context.Agendamentos.Add(agendamento);
+                    agendamento.DataHora = dataEscolhida;
+                    agendamento.Status = "Confirmado";
+                    _context.Update(agendamento);
+                }
             }
             else
             {
-                agendamento.DataHora = dataEscolhida;
-                agendamento.Status = "Confirmado";
-
-                _context.Update(agendamento);
+                var novoAgendamento = new AgendamentoConsulta
+                {
+                    UsuarioId = usuario.Id,
+                    DataHora = dataEscolhida,
+                    Status = "Agendado",
+                    Observacoes = "Agendamento via Portal do Cooperado"
+                };
+                _context.Agendamentos.Add(novoAgendamento);
             }
 
             await _context.SaveChangesAsync();
 
-            TempData["MensagemSucesso"] = $"Seu agendamento foi salvo para {dataEscolhida:dd/MM/yyyy HH:mm}!";
+            TempData["MensagemSucesso"] = "Seu horário foi agendado para " + dataEscolhida.ToString("dd/MM/yyyy HH:mm") + " com sucesso!";
 
             return RedirectToAction("Index");
         }
 
-        private async Task<ConsultoriaViewModel> ObterViewModelMista()
-        {
-            string userIdSimulado = "1";
-            var agendamentoDoBanco = await _context.Agendamentos.FirstOrDefaultAsync(a => a.UsuarioId == userIdSimulado);
 
-            if (agendamentoDoBanco == null)
+        [HttpGet]
+        public async Task<IActionResult> Sonhos()
+        {
+            var usuario = await _userManager.GetUserAsync(User);
+            if (usuario == null) return RedirectToAction("Login", "Account");
+
+            return View(usuario);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SalvarOnboarding(Usuario model)
+        {
+            var usuario = await _userManager.GetUserAsync(User);
+            if (usuario != null)
             {
-                agendamentoDoBanco = new AgendamentoConsulta
-                {
-                    Id = 0,
-                    UsuarioId = userIdSimulado,
-                    DataHora = DateTime.Now.AddDays(1).Date.AddHours(14),
-                    Status = "Pendente",
-                    Observacoes = "Escolha um horário para sua primeira consultoria."
-                };
+                usuario.Objetivo = model.Objetivo;
+                await _userManager.UpdateAsync(usuario); 
+                TempData["MensagemSucesso"] = "Sua meta foi salva com sucesso!";
+            }
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        [HttpGet]
+        public async Task<IActionResult> Simulador()
+        {
+            var usuario = await _userManager.GetUserAsync(User);
+
+            if (usuario == null)
+            {
+                return RedirectToAction("Login", "Account");
             }
 
-            return new ConsultoriaViewModel
+            var viewModel = new ConsultoriaViewModel
             {
-                Usuario = new Usuario
-                {
-                    Id = userIdSimulado, 
-                    Nome = "Usuário Teste",
-                    RendaMensal = 4500.00m,
-                    TotalDividas = 1200.00m,
-                    Objetivo = "Criar Reserva de Emergência",
-                    DataAnalise = DateTime.Now
-                },
-                CondicaoFinanceira = new CondicaoFinanceira
-                {
-                    Id = 1,
-                    StatusAtual = "Atenção: Endividamento Leve",
-                    RendaMensal = 4500.00m,
-                    TotalDividas = 1200.00m
-                },
-                Trilha = new Trilha
-                {
-                    Id = 1,
-                    Titulo = "Saindo do Vermelho",
-                    Descricao = "Passo a passo para organizar as contas e fazer sobrar dinheiro."
-                },
-                Aula = new Aula
-                {
-                    Id = 1,
-                    Titulo = "Mapeando seus gastos invisíveis",
-                    TrilhaId = 1,
-                    ConteudoTexto = "Assista a este vídeo antes da nossa consultoria.",
-                    Ordem = 1
-                },
-                Agendamento = agendamentoDoBanco
+                Usuario = usuario
             };
+
+            return View(viewModel);
         }
     }
 }

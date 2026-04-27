@@ -2,23 +2,19 @@
 
 @{
     ViewData["Title"] = "Simulador de Sonhos e Metas";
-    Layout = null; 
+    Layout = null;
 }
 
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>@ViewData["Title"] | BarraCred</title>
     
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
     
-    <script id="tailwind-config">
+    <script>
         tailwind.config = {
             theme: {
                 extend: {
@@ -33,65 +29,20 @@
                     fontFamily: {
                         "display": ["Manrope", "sans-serif"]
                     },
-                    borderRadius: {
-                        "DEFAULT": "0.25rem",
-                        "lg": "0.5rem",
-                        "xl": "0.75rem",
-                        "2xl": "1rem",
-                        "full": "9999px"
-                    },
                     boxShadow: {
-                        "soft": "0 4px 20px -2px rgba(0, 0, 0, 0.05)",
-                        "card": "0 10px 15px -3px rgba(0, 0, 0, 0.04), 0 4px 6px -2px rgba(0, 0, 0, 0.02)"
+                        "soft": "0 4px 20px -2px rgba(0, 0, 0, 0.05)"
                     }
-                },
-            },
-        }
-    </script>
-    <style type="text/tailwindcss">
-        @@layer base {
-            body {
-                @@apply bg-background-light text-text-main font-display antialiased;
+                }
             }
         }
-        .slider-thumb::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 24px;
-            height: 24px;
-            background: #008744;
-            cursor: pointer;
-            border-radius: 50%;
-            border: 4px solid #FFFFFF;
-            box-shadow: 0 2px 8px rgba(0, 135, 68, 0.3);
-            transition: transform 0.1s;
-        }
-        .slider-thumb:active::-webkit-slider-thumb {
-            transform: scale(1.15);
-        }
-        .slider-thumb::-moz-range-thumb {
-            width: 24px;
-            height: 24px;
-            background: #008744;
-            cursor: pointer;
-            border-radius: 50%;
-            border: 4px solid #FFFFFF;
-            box-shadow: 0 2px 8px rgba(0, 135, 68, 0.3);
-        }
-        .glass-panel {
-            @@apply bg-surface border border-border-color shadow-soft;
-        }
+    </script>
 
-        /* Classes mágicas para os botões de Sonhos */
-        .btn-sonho-ativo {
-            @@apply border-primary bg-primary/5 text-primary;
-        }
-        .btn-sonho-inativo {
-            @@apply border-transparent bg-background-light text-text-muted hover:border-border-color hover:text-text-main;
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    
+    <link rel="stylesheet" href="~/css/simulador.css" asp-append-version="true" />
 </head>
-
 <body class="min-h-screen">
     <header class="border-b border-border-color bg-surface/80 backdrop-blur-md sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
@@ -101,12 +52,14 @@
                 </div>
                 <span class="text-xl font-bold tracking-tight text-text-main">Barra<span class="text-primary">Cred</span></span>
             </div>
+            
             <nav class="hidden md:flex items-center gap-8">
                 <a class="text-sm font-semibold text-text-muted hover:text-primary transition-colors" asp-controller="Home" asp-action="Index">Início</a>
                 <a class="text-sm font-bold text-primary border-b-2 border-primary pb-1" asp-controller="Home" asp-action="Simulador">Simulador</a>
                 <a class="text-sm font-semibold text-text-muted hover:text-primary transition-colors" href="#">Produtos</a>
                 <a class="text-sm font-semibold text-text-muted hover:text-primary transition-colors" href="#">Ajuda</a>
             </nav>
+            
             <div class="flex items-center gap-4">
                 <div class="text-right hidden sm:block">
                     <p class="text-[10px] uppercase tracking-wider font-bold text-text-muted">Foco: @Model.Usuario.Objetivo</p>
@@ -120,7 +73,6 @@
     </header>
     
     <main class="max-w-7xl mx-auto px-4 py-8 md:py-16">
-        
         <section class="mb-12">
             <h1 class="text-4xl md:text-5xl font-extrabold mb-4 text-text-main tracking-tight">
                 Simulador de <span class="text-primary">Sonhos e Metas</span>
@@ -156,6 +108,7 @@
                 
                 <div class="glass-panel p-8 rounded-2xl space-y-10">
                     <h3 class="text-xs font-bold uppercase tracking-[0.15em] text-primary mb-2">2. Defina os parâmetros</h3>
+                    
                     <div class="space-y-4">
                         <div class="flex justify-between items-center">
                             <label class="text-text-main font-bold">Quanto você precisa?</label>
@@ -167,6 +120,7 @@
                             <span>R$ 250.000</span>
                         </div>
                     </div>
+                    
                     <div class="space-y-4">
                         <div class="flex justify-between items-center">
                             <label class="text-text-main font-bold">Em quanto tempo?</label>
@@ -190,6 +144,7 @@
                             <span class="text-2xl font-medium text-white/70">R$</span>
                             <span id="calcMensal" class="text-6xl font-black text-white">0,00</span>
                         </div>
+                        
                         <div class="p-5 bg-white/10 rounded-xl border border-white/20 flex items-start gap-4 mb-8">
                             <span class="material-icons text-white">trending_up</span>
                             <div>
@@ -197,12 +152,14 @@
                                 <p id="textViabilidade" class="text-xs text-white/80 leading-relaxed">Calculando viabilidade...</p>
                             </div>
                         </div>
+                        
                         <button class="w-full py-4 bg-white text-primary hover:bg-slate-50 font-black rounded-xl shadow-lg flex items-center justify-center gap-3 transition-all active:scale-[0.98] uppercase tracking-wider text-sm">
                             CRIAR ESTA META
                             <span class="material-icons text-lg">arrow_forward</span>
                         </button>
                     </div>
                 </div>
+                
                 <div class="grid grid-cols-2 gap-4">
                     <div class="glass-panel p-5 rounded-2xl">
                         <p class="text-[10px] text-text-muted uppercase font-black tracking-widest mb-1">Total Acumulado</p>
@@ -216,346 +173,11 @@
             </div>
         </div>
 
-
         <section class="mt-24 pt-16 border-t border-border-color">
-            <div class="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
-                <div>
-                    <h2 class="text-3xl font-extrabold text-text-main tracking-tight">O Poder do Aporte Mensal</h2>
-                    <p class="text-text-muted mt-2">Veja quanto você terá no futuro se investir um valor fixo por mês com a taxa Selic atual.</p>
-                </div>
-                <div class="bg-primary/10 border border-primary/20 px-4 py-2 rounded-lg flex items-center gap-2">
-                    <span class="material-icons text-primary">percent</span>
-                    <span class="text-sm font-bold text-primary">Selic Hoje: 10,75% a.a.</span>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                <div class="lg:col-span-6 glass-panel p-8 rounded-2xl space-y-10">
-                    <div class="space-y-4">
-                        <div class="flex justify-between items-center">
-                            <label class="text-text-main font-bold">Quanto investir por mês?</label>
-                            <span id="displayAporte" class="text-3xl font-black text-primary tracking-tight">R$ 500</span>
-                        </div>
-                        <input id="inputAporte" class="w-full h-2.5 bg-border-color rounded-lg appearance-none cursor-pointer slider-thumb" max="10000" min="50" step="50" type="range" value="500" />
-                        <div class="flex justify-between text-[11px] text-text-muted font-bold uppercase tracking-wider">
-                            <span>R$ 50</span>
-                            <span>R$ 10.000</span>
-                        </div>
-                    </div>
-                    
-                    <div class="space-y-4">
-                        <div class="flex justify-between items-center">
-                            <label class="text-text-main font-bold">Por quanto tempo?</label>
-                            <span id="displayTempoAporte" class="text-3xl font-black text-primary tracking-tight">5 Anos</span>
-                        </div>
-                        <input id="inputTempoAporte" class="w-full h-2.5 bg-border-color rounded-lg appearance-none cursor-pointer slider-thumb" max="360" min="12" step="12" type="range" value="60" />
-                        <div class="flex justify-between text-[11px] text-text-muted font-bold uppercase tracking-wider">
-                            <span>1 ANO</span>
-                            <span>30 ANOS</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div class="glass-panel p-6 rounded-2xl flex flex-col justify-center bg-text-main text-white sm:col-span-2 relative overflow-hidden">
-                        <div class="absolute -right-10 -bottom-10 opacity-10">
-                            <span class="material-icons text-9xl">account_balance_wallet</span>
-                        </div>
-                        <p class="text-xs text-slate-400 uppercase font-black tracking-widest mb-2 relative z-10">Patrimônio Bruto Acumulado</p>
-                        <p id="calcPatrimonio" class="text-4xl md:text-5xl font-black text-white relative z-10">R$ 0,00</p>
-                    </div>
-                    
-                    <div class="glass-panel p-6 rounded-2xl border-t-4 border-t-text-muted flex flex-col justify-center">
-                        <div class="flex items-center gap-2 mb-2">
-                            <span class="material-icons text-text-muted text-sm">payments</span>
-                            <p class="text-[10px] text-text-muted uppercase font-black tracking-widest">Total do Seu Bolso</p>
-                        </div>
-                        <p id="calcTotalInvestido" class="text-2xl font-bold text-text-main">R$ 0,00</p>
-                    </div>
-                    
-                    <div class="glass-panel p-6 rounded-2xl border-t-4 border-t-primary flex flex-col justify-center">
-                        <div class="flex items-center gap-2 mb-2">
-                            <span class="material-icons text-primary text-sm">savings</span>
-                            <p class="text-[10px] text-text-muted uppercase font-black tracking-widest">Juros Ganhos (Selic)</p>
-                        </div>
-                        <p id="calcTotalJuros" class="text-2xl font-bold text-primary">+ R$ 0,00</p>
-                    </div>
-                </div>
-            </div>
-        </section>
+            </section>
         
-        <section class="mt-24">
-            <div class="flex items-end justify-between mb-10">
-                <div>
-                    <h2 class="text-3xl font-extrabold text-text-main tracking-tight">Produtos Sugeridos</h2>
-                    <p class="text-text-muted mt-2">Melhores opções para potencializar seus rendimentos.</p>
-                </div>
-                <button class="text-primary font-bold text-sm flex items-center gap-2 hover:gap-3 transition-all border-b-2 border-transparent hover:border-primary pb-1 uppercase tracking-widest">
-                    Ver todos <span class="material-icons text-base">east</span>
-                </button>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="glass-panel p-8 rounded-2xl flex flex-col justify-between group hover:border-primary/30 transition-all hover:-translate-y-1">
-                    <div>
-                        <div class="flex justify-between items-start mb-6">
-                            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
-                                <span class="material-icons">query_stats</span>
-                            </div>
-                            <span class="px-3 py-1 bg-slate-100 text-text-muted text-[10px] font-black rounded-full uppercase tracking-wider">Médio Prazo</span>
-                        </div>
-                        <h4 class="text-xl font-bold mb-3 text-text-main">Renda Fixa Plus</h4>
-                        <p class="text-sm text-text-muted mb-8 leading-relaxed">Ideal para metas de médio prazo com liquidez diária após 90 dias.</p>
-                        <div class="space-y-4 mb-10">
-                            <div class="flex justify-between text-sm border-b border-border-color pb-2">
-                                <span class="text-text-muted font-medium">Rentabilidade</span>
-                                <span class="text-text-main font-bold">115% do CDI</span>
-                            </div>
-                            <div class="flex justify-between text-sm border-b border-border-color pb-2">
-                                <span class="text-text-muted font-medium">Aporte Mínimo</span>
-                                <span class="text-text-main font-bold">R$ 500,00</span>
-                            </div>
-                        </div>
-                    </div>
-                    <button class="w-full py-3 bg-background-light group-hover:bg-primary group-hover:text-white text-text-main font-bold rounded-xl transition-all uppercase tracking-wider text-xs">
-                        Selecionar
-                    </button>
-                </div>
-                
-                <div class="glass-panel p-8 rounded-2xl flex flex-col justify-between group border-primary/20 shadow-xl shadow-primary/5 transition-all hover:-translate-y-1 relative">
-                    <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary px-4 py-1.5 rounded-full text-[10px] font-black text-white uppercase tracking-[0.1em]">RECOMENDADO</div>
-                    <div>
-                        <div class="flex justify-between items-start mb-6">
-                            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
-                                <span class="material-icons">savings</span>
-                            </div>
-                            <span class="px-3 py-1 bg-primary/10 text-primary text-[10px] font-black rounded-full uppercase tracking-wider">Exclusivo</span>
-                        </div>
-                        <h4 class="text-xl font-bold mb-3 text-text-main">Cota Capital</h4>
-                        <p class="text-sm text-text-muted mb-8 leading-relaxed">A participação nos resultados da BarraCred que acelera seus sonhos.</p>
-                        <div class="space-y-4 mb-10">
-                            <div class="flex justify-between text-sm border-b border-border-color pb-2">
-                                <span class="text-text-muted font-medium">Sobra Anual Est.</span>
-                                <span class="text-primary font-black">12.5% a.a.</span>
-                            </div>
-                            <div class="flex justify-between text-sm border-b border-border-color pb-2">
-                                <span class="text-text-muted font-medium">Aporte Mensal</span>
-                                <span class="text-text-main font-bold">Automático</span>
-                            </div>
-                        </div>
-                    </div>
-                    <button class="w-full py-3 bg-primary text-white font-bold rounded-xl shadow-lg shadow-primary/20 transition-all uppercase tracking-wider text-xs hover:brightness-110">
-                        Selecionar
-                    </button>
-                </div>
-                
-                <div class="glass-panel p-8 rounded-2xl flex flex-col justify-between group hover:border-primary/30 transition-all hover:-translate-y-1">
-                    <div>
-                        <div class="flex justify-between items-start mb-6">
-                            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
-                                <span class="material-icons">verified_user</span>
-                            </div>
-                            <span class="px-3 py-1 bg-slate-100 text-text-muted text-[10px] font-black rounded-full uppercase tracking-wider">Proteção</span>
-                        </div>
-                        <h4 class="text-xl font-bold mb-3 text-text-main">Previdência Barra</h4>
-                        <p class="text-sm text-text-muted mb-8 leading-relaxed">Segurança para o seu futuro com benefícios fiscais imediatos.</p>
-                        <div class="space-y-4 mb-10">
-                            <div class="flex justify-between text-sm border-b border-border-color pb-2">
-                                <span class="text-text-muted font-medium">Taxa Adm.</span>
-                                <span class="text-text-main font-bold">0.5% a.a.</span>
-                            </div>
-                            <div class="flex justify-between text-sm border-b border-border-color pb-2">
-                                <span class="text-text-muted font-medium">Vantagem Fiscal</span>
-                                <span class="text-text-main font-bold">Até 12%</span>
-                            </div>
-                        </div>
-                    </div>
-                    <button class="w-full py-3 bg-background-light group-hover:bg-primary group-hover:text-white text-text-main font-bold rounded-xl transition-all uppercase tracking-wider text-xs">
-                        Selecionar
-                    </button>
-                </div>
-            </div>
-        </section>
-        
-        <section class="mt-24 relative rounded-[2rem] overflow-hidden min-h-[450px] flex items-center bg-text-main shadow-2xl">
-            <img alt="Luxury travel destination" class="absolute inset-0 w-full h-full object-cover opacity-30" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCOQCp4YEqzhmE7PTFSjuBDr7W033KEjLIQ_r43EAtXJB7HZMAz3voki3UDP6tjPuwUmPwrQq0rqh8CfuixOpTn6FE5a1PbFSB1lQpn9dM0tzazc-B9_zQlOzU3FkpXaaT3mMGTeIWe5_JQLl8l_zgUGNU0lJEUo-cqoLUzv08vkymFTv5bUJ3o3N9_rkqRMi6wH3ozJ-E4WTVJUdOrNA4dMu5gqoh2vMTpdcw8BFwkyO2dYM_zsBBxxBhNNNwNqg20ISaaMP68MeI" />
-            <div class="absolute inset-0 bg-gradient-to-r from-text-main via-text-main/70 to-transparent"></div>
-            <div class="relative z-10 p-10 md:p-20 max-w-2xl">
-                <span class="text-primary font-black uppercase tracking-[0.3em] text-xs mb-6 block">Inspiração do Dia</span>
-                <h2 class="text-4xl md:text-5xl font-extrabold text-white mb-8 leading-tight">Sua próxima conquista começa com o primeiro depósito.</h2>
-                <p class="text-slate-300 text-lg mb-10 leading-relaxed font-medium">
-                    Pesquisas mostram que investidores que definem metas visuais têm 3x mais chances de completar seus objetivos financeiros. Estamos aqui para garantir que você chegue lá.
-                </p>
-                <div class="flex flex-col sm:flex-row gap-6">
-                    <div class="flex -space-x-3">
-                        <div class="w-12 h-12 rounded-full border-4 border-text-main bg-slate-300 shadow-lg"></div>
-                        <div class="w-12 h-12 rounded-full border-4 border-text-main bg-slate-400 shadow-lg"></div>
-                        <div class="w-12 h-12 rounded-full border-4 border-text-main bg-slate-500 shadow-lg"></div>
-                    </div>
-                    <p class="text-sm text-white/70 self-center font-bold">
-                        <span class="text-white text-base font-black">+1.200 cooperados</span> já estão planejando o futuro.
-                    </p>
-                </div>
-            </div>
-        </section>
-    </main>
+        </main>
     
-    <footer class="mt-24 bg-white border-t border-border-color pt-16 pb-12">
-        <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-12">
-            <div class="space-y-6">
-                <div class="flex items-center gap-2">
-                    <span class="material-icons text-primary text-2xl">account_balance</span>
-                    <span class="text-xl font-black text-text-main">BarraCred</span>
-                </div>
-                <p class="text-sm text-text-muted leading-relaxed font-medium">
-                    A cooperativa de crédito focada em oferecer as melhores soluções financeiras para você e sua família.
-                </p>
-            </div>
-            <div>
-                <h5 class="font-black mb-8 text-text-main uppercase text-[10px] tracking-widest">Serviços</h5>
-                <ul class="space-y-4 text-sm font-bold text-text-muted">
-                    <li><a class="hover:text-primary transition-colors" href="#">Investimentos</a></li>
-                    <li><a class="hover:text-primary transition-colors" href="#">Crédito Pessoal</a></li>
-                    <li><a class="hover:text-primary transition-colors" href="#">Seguros</a></li>
-                    <li><a class="hover:text-primary transition-colors" href="#">Consórcios</a></li>
-                </ul>
-            </div>
-            <div>
-                <h5 class="font-black mb-8 text-text-main uppercase text-[10px] tracking-widest">Institucional</h5>
-                <ul class="space-y-4 text-sm font-bold text-text-muted">
-                    <li><a class="hover:text-primary transition-colors" href="#">Quem Somos</a></li>
-                    <li><a class="hover:text-primary transition-colors" href="#">Transparência</a></li>
-                    <li><a class="hover:text-primary transition-colors" href="#">Governança</a></li>
-                    <li><a class="hover:text-primary transition-colors" href="#">Trabalhe Conosco</a></li>
-                </ul>
-            </div>
-            <div>
-                <h5 class="font-black mb-8 text-text-main uppercase text-[10px] tracking-widest">Fale Conosco</h5>
-                <div class="space-y-5 text-sm font-bold text-text-muted">
-                    <p class="flex items-center gap-3">
-                        <span class="material-icons text-primary text-lg">phone</span>
-                        0800 123 4567
-                    </p>
-                    <p class="flex items-center gap-3">
-                        <span class="material-icons text-primary text-lg">email</span>
-                        contato@barracred.com.br
-                    </p>
-                    <div class="flex gap-4 pt-6">
-                        <a class="w-10 h-10 rounded-xl bg-background-light flex items-center justify-center hover:bg-primary/10 hover:text-primary transition-all text-text-muted" href="#">
-                            <span class="material-icons text-lg">facebook</span>
-                        </a>
-                        <a class="w-10 h-10 rounded-xl bg-background-light flex items-center justify-center hover:bg-primary/10 hover:text-primary transition-all text-text-muted" href="#">
-                            <span class="material-icons text-lg">language</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="max-w-7xl mx-auto px-4 mt-16 pt-8 border-t border-border-color flex flex-col md:flex-row justify-between items-center gap-4 text-[11px] font-bold text-text-muted uppercase tracking-wider">
-            <p>© 2024 BarraCred Cooperativa de Crédito. Todos os direitos reservados.</p>
-            <div class="flex gap-8">
-                <a class="hover:text-primary transition-colors" href="#">Privacidade</a>
-                <a class="hover:text-primary transition-colors" href="#">Termos</a>
-                <a class="hover:text-primary transition-colors" href="#">Ouvidoria</a>
-            </div>
-        </div>
-    </footer>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            
-            const taxaSelicAnual = 0.1075; 
-            const taxaMensal = Math.pow(1 + taxaSelicAnual, 1/12) - 1; 
-
-            function formatarMoeda(valor) {
-                return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-            }
-
-            const inputValor = document.getElementById('inputValor');
-            const displayValor = document.getElementById('displayValor');
-            const inputTempo = document.getElementById('inputTempo');
-            const displayTempo = document.getElementById('displayTempo');
-            
-            const calcMensal = document.getElementById('calcMensal');
-            const calcAcumulado = document.getElementById('calcAcumulado');
-            const calcRendimento = document.getElementById('calcRendimento');
-            const textViabilidade = document.getElementById('textViabilidade');
-
-            function calcularPorObjetivo() {
-                const valorObjetivo = parseFloat(inputValor.value);
-                const meses = parseInt(inputTempo.value);
-
-                displayValor.innerText = formatarMoeda(valorObjetivo);
-                displayTempo.innerText = meses + " Meses";
-
-                const pmt = (valorObjetivo * taxaMensal) / (Math.pow(1 + taxaMensal, meses) - 1);
-                const totalInvestido = pmt * meses;
-                const rendimento = valorObjetivo - totalInvestido;
-
-                calcMensal.innerText = pmt.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                calcAcumulado.innerText = formatarMoeda(valorObjetivo);
-                calcRendimento.innerText = "+ " + formatarMoeda(rendimento);
-
-                if (meses <= 12) {
-                    textViabilidade.innerText = "Meta de curto prazo agressiva! Vai exigir disciplina, mas o resultado vem rápido.";
-                } else if (meses <= 48) {
-                    textViabilidade.innerText = "Excelente! Neste prazo intermediário, os juros compostos já começam a dar um bom empurrão no seu dinheiro.";
-                } else {
-                    textViabilidade.innerText = "Planejamento fantástico! No longo prazo, grande parte do seu sonho será pago apenas pelos rendimentos.";
-                }
-            }
-
-            inputValor.addEventListener('input', calcularPorObjetivo);
-            inputTempo.addEventListener('input', calcularPorObjetivo);
-
-
-            const inputAporte = document.getElementById('inputAporte');
-            const displayAporte = document.getElementById('displayAporte');
-            const inputTempoAporte = document.getElementById('inputTempoAporte');
-            const displayTempoAporte = document.getElementById('displayTempoAporte');
-            
-            const calcPatrimonio = document.getElementById('calcPatrimonio');
-            const calcTotalInvestido = document.getElementById('calcTotalInvestido');
-            const calcTotalJuros = document.getElementById('calcTotalJuros');
-
-            function calcularPorAporte() {
-                const aporte = parseFloat(inputAporte.value);
-                const meses = parseInt(inputTempoAporte.value);
-
-                displayAporte.innerText = formatarMoeda(aporte);
-                if (meses % 12 === 0) {
-                    const anos = meses / 12;
-                    displayTempoAporte.innerText = anos + (anos === 1 ? " Ano" : " Anos");
-                } else {
-                    displayTempoAporte.innerText = meses + " Meses";
-                }
-
-                const valorFuturo = aporte * ( (Math.pow(1 + taxaMensal, meses) - 1) / taxaMensal );
-                const totalInvestidoAporte = aporte * meses;
-                const jurosGanhos = valorFuturo - totalInvestidoAporte;
-
-                calcPatrimonio.innerText = formatarMoeda(valorFuturo);
-                calcTotalInvestido.innerText = formatarMoeda(totalInvestidoAporte);
-                calcTotalJuros.innerText = "+ " + formatarMoeda(jurosGanhos);
-            }
-
-            inputAporte.addEventListener('input', calcularPorAporte);
-            inputTempoAporte.addEventListener('input', calcularPorAporte);
-
-            const botoesSonho = document.querySelectorAll('.btn-sonho');
-            botoesSonho.forEach(botao => {
-                botao.addEventListener('click', function() {
-                    botoesSonho.forEach(b => {
-                        b.classList.remove('btn-sonho-ativo');
-                        b.classList.add('btn-sonho-inativo');
-                    });
-                    this.classList.remove('btn-sonho-inativo');
-                    this.classList.add('btn-sonho-ativo');
-                });
-            });
-
-            calcularPorObjetivo();
-            calcularPorAporte();
-        });
-    </script>
+    <script src="~/js/simulador.js" asp-append-version="true"></script>
 </body>
 </html>
