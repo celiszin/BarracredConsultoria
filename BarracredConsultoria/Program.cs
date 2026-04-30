@@ -1,3 +1,4 @@
+
 using Microsoft.AspNetCore.Identity;
 using BarracredConsultoria.Models;
 using BarracredConsultoria.Data;
@@ -5,13 +6,12 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddControllersWithViews();
 
 string conexao = builder.Configuration.GetConnectionString("BarraCon");
 
 builder.Services.AddDbContext<AppDbContext>(
-    options => options.UseMySQL(conexao) 
+    options => options.UseSqlServer(conexao) 
 );
 
 builder.Services.AddIdentity<Usuario, IdentityRole>(options => {
@@ -46,7 +46,6 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
-
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
@@ -63,5 +62,7 @@ using (var scope = app.Services.CreateScope())
         logger.LogError(ex, "Ocorreu um erro ao popular o banco de dados inicial.");
     }
 }
+
+app.Run();
 
 app.Run();
