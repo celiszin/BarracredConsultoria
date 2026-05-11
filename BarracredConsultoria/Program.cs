@@ -9,10 +9,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 string conexao = builder.Configuration.GetConnectionString("BarraCon");
-
 builder.Services.AddDbContext<AppDbContext>(
-    options => options.UseSqlServer(conexao) 
+    options => options.UseMySQL(conexao)
 );
+
 
 builder.Services.AddIdentity<Usuario, IdentityRole>(options => {
     options.Password.RequireDigit = false;

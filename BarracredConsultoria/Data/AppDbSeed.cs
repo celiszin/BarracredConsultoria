@@ -31,7 +31,8 @@ namespace BarracredConsultoria.Data
                     DataNascimento = new DateTime(1990, 1, 1),
                     DataAnalise = DateTime.Now,
                     Objetivo = "Gestão do Sistema",
-                    Foto = "/img/usuarios/default-admin.png" // Caminho padrão
+                    Foto = "/img/usuarios/default-admin.png",
+                    IsAprovado = true 
                 };
 
                 var result = await userManager.CreateAsync(user, "Admin123!");

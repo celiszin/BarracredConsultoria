@@ -23,5 +23,7 @@ namespace BarracredConsultoria.Models
         public string Foto { get; set; }
 
         public DateTime DataAnalise { get; set; } = DateTime.Now;
+
+        public bool IsAprovado { get; set; } = false;
     }
 }

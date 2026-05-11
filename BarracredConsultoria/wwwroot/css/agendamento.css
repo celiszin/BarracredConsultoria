@@ -1,0 +1,46 @@
+/* agendamento.css - Estilos do Calendário Interativo */
+.calendar-card { background-color: transparent; width: 100%; }
+
+.calendar-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+.month-year { color: #1a5c38; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+.month-nav i { cursor: pointer; color: #1a7a4a; padding: 5px; transition: 0.2s; }
+.month-nav i:hover { transform: scale(1.2); }
+
+.weekdays { display: grid; grid-template-columns: repeat(7, 1fr); margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+.weekday { text-align: center; color: #9ca3af; font-size: 11px; font-weight: 700; }
+
+.calendar-days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; }
+.calendar-day { 
+    text-align: center; font-size: 13px; padding: 8px 0; color: #111827; 
+    cursor: pointer; border-radius: 50%; transition: 0.2s; 
+    display: flex; align-items: center; justify-content: center; height: 35px; width: 35px; margin: 0 auto;
+}
+.calendar-day:hover:not(.other-month):not(.selected) { background-color: #e8f5e9; color: #008744; }
+.calendar-day.selected { background-color: #008744; color: #ffffff; font-weight: 700; }
+.calendar-day.other-month { color: #d1d5db; cursor: default; }
+
+/* Reminder Card */
+.reminder-card { background-color: #1a5c38; border-radius: 12px; padding: 15px; display: flex; align-items: center; gap: 12px; color: white; }
+.reminder-icon { background: #2d7a52; padding: 10px; border-radius: 8px; font-size: 20px; }
+.reminder-label { font-size: 10px; opacity: 0.8; font-weight: 700; }
+.reminder-datetime { font-weight: 700; font-size: 16px; }
+
+/* Form Elements */
+.time-picker-container { 
+    background: #f0fdf4; border: 1.5px solid #a8d5b8; border-radius: 12px; 
+    padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; margin-top: 20px;
+}
+.time-picker-input { border: none; background: transparent; font-family: 'Inter'; font-weight: 700; color: #1a5c38; outline: none; }
+
+.new-appointment-card { 
+    background: #fff; border: 1.5px solid #008744; border-radius: 12px; 
+    padding: 15px; width: 100%; cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+    transition: 0.2s;
+}
+.new-appointment-card:hover { background: #008744; color: white; }
+.new-appointment-card:hover h4, .new-appointment-card:hover p { color: white; }
+.new-appointment-text h4 { font-size: 14px; color: #008744; }
+.new-appointment-text p { font-size: 11px; color: #666; }
+
+.plus-icon { border: 2px solid #008744; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; }
+.new-appointment-card:hover .plus-icon { border-color: white; }

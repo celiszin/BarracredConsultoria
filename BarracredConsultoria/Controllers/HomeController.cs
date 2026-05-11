@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 using BarracredConsultoria.Data;
 using BarracredConsultoria.Models;
 using BarracredConsultoria.ViewModels;
@@ -21,14 +22,16 @@ namespace BarracredConsultoria.Controllers
             _userManager = userManager;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Dashboard()
         {
             var usuario = await _userManager.GetUserAsync(User);
-
-            if (usuario == null)
-            {
-                return RedirectToAction("Login", "Account");
-            }
+            if (usuario == null) return RedirectToAction("Login", "Account");
 
             var agendamento = await _context.Agendamentos
                 .FirstOrDefaultAsync(a => a.UsuarioId == usuario.Id && a.DataHora >= DateTime.Now);
@@ -50,7 +53,27 @@ namespace BarracredConsultoria.Controllers
             return View(viewModel);
         }
 
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> Agendamento()
+        {
+            var usuario = await _userManager.GetUserAsync(User);
+            if (usuario == null) return RedirectToAction("Login", "Account");
+
+            var agendamento = await _context.Agendamentos
+                .FirstOrDefaultAsync(a => a.UsuarioId == usuario.Id && a.DataHora >= DateTime.Now);
+
+            var viewModel = new ConsultoriaViewModel
+            {
+                Usuario = usuario,
+                Agendamento = agendamento
+            };
+
+            return View(viewModel);
+        }
+
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> SalvarAgendamento(int agendamentoId, DateTime dataEscolhida)
         {
             var usuario = await _userManager.GetUserAsync(User);
@@ -79,14 +102,19 @@ namespace BarracredConsultoria.Controllers
             }
 
             await _context.SaveChangesAsync();
+            TempData["MensagemSucesso"] = "O seu horário foi agendado para " + dataEscolhida.ToString("dd/MM/yyyy HH:mm") + " com sucesso!";
 
-            TempData["MensagemSucesso"] = "Seu horário foi agendado para " + dataEscolhida.ToString("dd/MM/yyyy HH:mm") + " com sucesso!";
+            // CORREÇÃO: Retorna o Admin para o local certo
+            if (await _userManager.IsInRoleAsync(usuario, "Admin"))
+            {
+                return RedirectToAction("Index", "Admin");
+            }
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Dashboard");
         }
 
-
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> Sonhos()
         {
             var usuario = await _userManager.GetUserAsync(User);
@@ -96,6 +124,7 @@ namespace BarracredConsultoria.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> SalvarOnboarding(Usuario model)
         {
             var usuario = await _userManager.GetUserAsync(User);
@@ -103,28 +132,20 @@ namespace BarracredConsultoria.Controllers
             {
                 usuario.Objetivo = model.Objetivo;
                 await _userManager.UpdateAsync(usuario); 
-                TempData["MensagemSucesso"] = "Sua meta foi salva com sucesso!";
+                TempData["MensagemSucesso"] = "A sua meta foi salva com sucesso!";
             }
-            return RedirectToAction("Index");
+            
+            return RedirectToAction("Dashboard");
         }
 
         [HttpGet]
-        [HttpGet]
+        [Authorize]
         public async Task<IActionResult> Simulador()
         {
             var usuario = await _userManager.GetUserAsync(User);
+            if (usuario == null) return RedirectToAction("Login", "Account");
 
-            if (usuario == null)
-            {
-                return RedirectToAction("Login", "Account");
-            }
-
-            var viewModel = new ConsultoriaViewModel
-            {
-                Usuario = usuario
-            };
-
-            return View(viewModel);
+            return View(new ConsultoriaViewModel { Usuario = usuario });
         }
     }
 }

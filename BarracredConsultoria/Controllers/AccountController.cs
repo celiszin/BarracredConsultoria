@@ -36,18 +36,32 @@ namespace BarracredConsultoria.Controllers
                 var user = await _userManager.FindByEmailAsync(model.Email);
                 string userName = user != null ? user.UserName : model.Email;
 
+                // Verificação: Bloqueia utilizadores não aprovados (exceto Admins)
+                if (user != null && !user.IsAprovado && !await _userManager.IsInRoleAsync(user, "Admin"))
+                {
+                    ViewBag.Error = "A sua conta ainda está a aguardar aprovação do administrador.";
+                    return View(new AcessoSessaoViewModel { Login = model });
+                }
+
                 var result = await _signInManager.PasswordSignInAsync(userName, model.Senha, model.Lembrar, false);
 
                 if (result.Succeeded)
                 {
+                    // CORREÇÃO: Envia o Admin para a tela de Admin
+                    if (await _userManager.IsInRoleAsync(user, "Admin"))
+                    {
+                        return RedirectToAction("Index", "Admin");
+                    }
+
                     if (!string.IsNullOrEmpty(model.UrlRetorno) && Url.IsLocalUrl(model.UrlRetorno))
                     {
                         return Redirect(model.UrlRetorno);
                     }
-                    return RedirectToAction("Index", "Home");
+                    
+                    return RedirectToAction("Dashboard", "Home");
                 }
                 
-                ViewBag.Error = "Usuário ou senha inválidos.";
+                ViewBag.Error = "Utilizador ou palavra-passe inválidos.";
             }
 
             return View(new AcessoSessaoViewModel { Login = model });
@@ -72,7 +86,7 @@ namespace BarracredConsultoria.Controllers
 
                 if (result.Succeeded)
                 {
-                    TempData["MensagemSucesso"] = "Conta criada com sucesso! Faça login abaixo.";
+                    TempData["MensagemSucesso"] = "Registo realizado! A sua conta está em análise e aguarda aprovação.";
                     return RedirectToAction("Login");
                 }
 
@@ -93,8 +107,7 @@ namespace BarracredConsultoria.Controllers
             if (ModelState.IsValid)
             {
                 var user = await _userManager.FindByEmailAsync(model.Email);
-                // A lógica de envio de e-mail entra aqui no futuro
-                TempData["MensagemSucesso"] = "Se o e-mail estiver cadastrado, você receberá as instruções em breve.";
+                TempData["MensagemSucesso"] = "Se o e-mail estiver registado, receberá as instruções em breve.";
                 return RedirectToAction("Login");
             }
 
