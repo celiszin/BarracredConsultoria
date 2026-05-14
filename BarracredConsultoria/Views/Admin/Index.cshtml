@@ -1,103 +1,89 @@
-@model IEnumerable<BarracredConsultoria.Models.Usuario>
+@model IEnumerable<BarracredConsultoria.Models.UsuarioViewModel>
 @{
-    Layout = null;
+    ViewData["Title"] = "Gestão de Cooperados";
 }
 
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel Administrativo | BarraCred</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="/css/site-barracred.css" />
-    <style>
-        .admin-table { width: 100%; border-collapse: collapse; margin-top: 20px; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        .admin-table th, .admin-table td { padding: 15px 20px; text-align: left; border-bottom: 1px solid #eee; }
-        .admin-table th { background-color: var(--verde-bg); color: var(--verde-primary); font-family: 'Montserrat'; }
-        .btn-approve { background: var(--verde-primary); color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.3s; }
-        .btn-approve:hover { background: var(--verde-light); }
-        .btn-reject { background: transparent; color: #ef4444; border: 1px solid #ef4444; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.3s; margin-left: 10px; }
-        .btn-reject:hover { background: #fee2e2; }
-    </style>
-</head>
-<body class="bg-light">
+@section Styles {
+    <link rel="stylesheet" href="~/css/admin-confirmacoes.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+}
 
-<nav class="navbar">
-    <div class="container nav-container">
-        <div class="logo">
-            <div class="logo-icon"><i class="fas fa-shield-alt"></i></div>
-            <div class="logo-text">BarraCred <span>ADMIN</span></div>
+<main class="main-content">
+    <div class="header">
+        <span class="greeting">Olá, @User.Identity.Name</span>
+    </div>
+
+    <h1 class="page-title">Solicitações Pendentes</h1>
+
+    <div class="search-container">
+        <i class="ti ti-search"></i>
+        <input type="text" id="searchInput" placeholder="Filtrar por nome ou e-mail...">
+    </div>
+
+    <div class="card-list" id="cardList">
+        @if (Model != null && Model.Any())
+        {
+            foreach (var usuario in Model)
+            {
+                <div class="card" data-id="@usuario.UsuarioId" data-name="@usuario.Nome">
+                    <div class="card-header">
+                        <span class="card-badge">@usuario.Perfil</span>
+                        <span class="status-label">Aguardando</span>
+                    </div>
+
+                    <div class="user-profile">
+                        @if (!string.IsNullOrEmpty(usuario.Foto)) {
+                            <img src="@usuario.Foto" class="avatar" />
+                        } else {
+                            <div class="avatar-placeholder"><i class="ti ti-user"></i></div>
+                        }
+                        <h2 class="user-name">@usuario.Nome</h2>
+                    </div>
+
+                    <div class="user-details">
+                        <span><i class="ti ti-mail"></i> @usuario.Email</span>
+                        <span><i class="ti ti-calendar"></i> Nasc: @usuario.DataNascimento.ToString("dd/MM/yyyy")</span>
+                    </div>
+
+                    <div class="btn-group">
+                        <button class="btn-approve" onclick="openModal('@usuario.UsuarioId', '@usuario.Nome', 'aprovar')">
+                            <i class="ti ti-check"></i> Aprovar
+                        </button>
+                        <button class="btn-reject" onclick="openModal('@usuario.UsuarioId', '@usuario.Nome', 'rejeitar')">
+                            <i class="ti ti-x"></i> Rejeitar
+                        </button>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="empty-state">
+                <i class="ti ti-users-off"></i>
+                <p>Nenhuma solicitação pendente.</p>
+            </div>
+        }
+    </div>
+</main>
+
+<div id="confirmModal" class="modal-overlay">
+    <div class="modal-box">
+        <div id="modalIconCircle" class="icon-circle">
+            <i id="modalIcon" class="ti"></i>
         </div>
-        <div class="user-menu" style="display: flex; align-items: center; gap: 20px;">
-            <a asp-controller="Home" asp-action="Index" style="text-decoration: none; color: var(--verde-primary); font-weight: 600; font-size: 14px;">
-                <i class="fas fa-home"></i> Início
-            </a>
-
-            <form asp-controller="Account" asp-action="Logout" method="post" style="display:inline;">
-                <button type="submit" class="logout-btn" style="background: none; border: none; color: #ef4444; font-weight: 600; cursor: pointer;">Sair do Painel</button>
+        <h3 id="modalTitle"></h3>
+        <p id="modalMessage"></p>
+        <div class="modal-actions">
+            <button onclick="closeModal()" class="btn-cancel">Cancelar</button>
+            <form id="modalForm" method="post">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="usuarioId" id="modalInputId" />
+                <button type="submit" id="modalConfirmBtn" class="btn-confirm">Confirmar</button>
             </form>
         </div>
     </div>
-</nav>
+</div>
 
-<section class="container" style="padding-top: 50px;">
-    <h2 style="font-family: 'Montserrat'; color: var(--text-dark); margin-bottom: 10px;">Solicitações de Acesso</h2>
-    <p style="color: var(--text-gray); margin-bottom: 30px;">Aprove ou rejeite novos cooperados que se cadastraram no sistema.</p>
-
-    @if (!Model.Any())
-    {
-        <div style="background: white; padding: 40px; text-align: center; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
-            <i class="fas fa-check-circle" style="font-size: 48px; color: var(--verde-primary); margin-bottom: 15px;"></i>
-            <h3>Tudo limpo por aqui!</h3>
-            <p style="color: var(--text-gray);">Não há nenhum usuário aguardando aprovação no momento.</p>
-        </div>
-    }
-    else
-    {
-        <table class="admin-table">
-            <thead>
-                <tr>
-                    <th>Nome do Usuário</th>
-                    <th>E-mail</th>
-                    <th>Data de Nascimento</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var user in Model)
-                {
-                    <tr>
-                        <td><strong>@user.Nome</strong></td>
-                        <td>@user.Email</td>
-                        <td>@user.DataNascimento.ToString("dd/MM/yyyy")</td>
-                        <td>
-                            <div style="display: flex;">
-                                <form asp-action="Aprovar" asp-route-id="@user.Id" method="post">
-                                    <button type="submit" class="btn-approve"><i class="fas fa-check"></i> Aprovar</button>
-                                </form>
-                                <form asp-action="Rejeitar" asp-route-id="@user.Id" method="post" onsubmit="return confirm('Tem certeza que deseja excluir esta solicitação?');">
-                                    <button type="submit" class="btn-reject"><i class="fas fa-times"></i> Rejeitar</button>
-                                </form>
-                            </div>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    }
-</section>
-
-<div id="toastMsg" class="toast-msg"></div>
-<script src="/js/site-barracred.js"></script>
-
-@if (TempData["MensagemSucesso"] != null) {
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            showMessage("@Html.Raw(TempData["MensagemSucesso"].ToString())");
-        });
-    </script>
+@section Scripts {
+    <script src="~/js/admin-confirmacoes.js"></script>
 }
-</body>
-</html>

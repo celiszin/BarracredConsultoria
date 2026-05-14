@@ -48,17 +48,17 @@ namespace BarracredConsultoria.Controllers
                 if (result.Succeeded)
                 {
                     // CORREÇÃO: Envia o Admin para a tela de Admin
-                    if (await _userManager.IsInRoleAsync(user, "Admin"))
-                    {
-                        return RedirectToAction("Index", "Admin");
-                    }
+                    // if (await _userManager.IsInRoleAsync(user, "Admin"))
+                    // {
+                    //     return RedirectToAction("Index", "Admin");
+                    // }
 
                     if (!string.IsNullOrEmpty(model.UrlRetorno) && Url.IsLocalUrl(model.UrlRetorno))
                     {
                         return Redirect(model.UrlRetorno);
                     }
                     
-                    return RedirectToAction("Dashboard", "Home");
+                    return RedirectToAction("Index", "Home");
                 }
                 
                 ViewBag.Error = "Utilizador ou palavra-passe inválidos.";

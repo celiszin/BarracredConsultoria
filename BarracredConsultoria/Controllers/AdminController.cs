@@ -1,9 +1,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using BarracredConsultoria.Models;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace BarracredConsultoria.Controllers
 {
@@ -17,41 +16,53 @@ namespace BarracredConsultoria.Controllers
             _userManager = userManager;
         }
 
-        // Lista todos os usuários aguardando aprovação
+        // Esta é a sua página principal de gerenciamento
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var usuariosPendentes = _userManager.Users.Where(u => !u.IsAprovado).ToList();
-            return View(usuariosPendentes);
+            var pendentes = await _userManager.Users
+                .Where(u => !u.IsAprovado)
+                .Select(u => new UsuarioViewModel
+                {
+                    UsuarioId = u.Id,
+                    Nome = u.Nome,
+                    Email = u.Email,
+                    UserName = u.UserName,
+                    Foto = u.Foto, 
+                    Perfil = "Pendente",
+                    DataNascimento = u.DataNascimento
+                })
+                .ToListAsync();
+
+            return View(pendentes);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Aprovar(string id)
+        [ValidateAntiForgeryToken] 
+        public async Task<IActionResult> Aprovar(string usuarioId) // Nome padronizado para o JS
         {
-            var user = await _userManager.FindByIdAsync(id);
+            var user = await _userManager.FindByIdAsync(usuarioId);
             if (user != null)
             {
                 user.IsAprovado = true;
                 await _userManager.UpdateAsync(user);
-                
-                // Adiciona o usuário ao cargo de Cooperado ao aprovar
                 await _userManager.AddToRoleAsync(user, "Cooperado");
-                
-                TempData["MensagemSucesso"] = $"Usuário {user.Nome} aprovado com sucesso!";
+                TempData["MensagemSucesso"] = $"Utilizador {user.Nome} aprovado!";
             }
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
 
         [HttpPost]
-        public async Task<IActionResult> Rejeitar(string id)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Rejeitar(string usuarioId)
         {
-            var user = await _userManager.FindByIdAsync(id);
+            var user = await _userManager.FindByIdAsync(usuarioId);
             if (user != null)
             {
                 await _userManager.DeleteAsync(user);
-                TempData["MensagemSucesso"] = "Solicitação de cadastro rejeitada e excluída.";
+                TempData["MensagemSucesso"] = "Cadastro rejeitado e removido.";
             }
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
     }
 }

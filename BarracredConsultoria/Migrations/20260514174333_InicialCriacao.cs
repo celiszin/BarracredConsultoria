@@ -7,7 +7,7 @@ using MySql.EntityFrameworkCore.Metadata;
 namespace BarracredConsultoria.Migrations
 {
     /// <inheritdoc />
-    public partial class AdicionarAprovacaoUsuario : Migration
+    public partial class InicialCriacao : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

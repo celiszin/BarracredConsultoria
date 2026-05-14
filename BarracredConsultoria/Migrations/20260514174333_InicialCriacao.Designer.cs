@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BarracredConsultoria.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260510215334_AdicionarAprovacaoUsuario")]
-    partial class AdicionarAprovacaoUsuario
+    [Migration("20260514174333_InicialCriacao")]
+    partial class InicialCriacao
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
